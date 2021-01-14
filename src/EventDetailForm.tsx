@@ -104,7 +104,7 @@ export const EventDetailForm: React.FC<
           </Button>
         </Box>
         <Box m={1} sx={{ flex: 1 }}>
-          <Button sx={{ width: "100%" }} onClick={onCancel} type="button">
+          <Button sx={{ width: "100%", backgroundColor: 'background', color: 'secondary' }} onClick={onCancel} type="button">
             Cancel
           </Button>
         </Box>

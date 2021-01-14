@@ -40,13 +40,13 @@ export const EventDetailView: React.FC = () => {
   return (
     <Flex sx={{ flexDirection: "column", height: "100%" }}>
       <Box sx={{flex: 1}}>
-        <Heading as="h1" sx={{ textAlign: "center", padding:'3rem', fontSize:52 }}>
+        <Heading as="h1" sx={{ textAlign: "center", padding:'3rem', fontSize:56 }}>
           {fragments.metrics}
         </Heading>
-        <Heading as="h3" sx={{ textAlign: "center", fontSize:36 }}>
+        <Heading as="h3" sx={{ textAlign: "center", fontSize:36, fontWeight: 350 }}>
           {fragments.type}
         </Heading>
-        <Heading as="h2" sx={{ textAlign: "center", fontSize:42 }}>
+        <Heading as="h2" sx={{ textAlign: "center", padding:'3rem', fontSize:42 }}>
           {fragments.eventName}
         </Heading>
       </Box>

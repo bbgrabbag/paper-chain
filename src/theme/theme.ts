@@ -16,8 +16,8 @@ const baseButtons = {
         cursor: 'pointer'
       },
       ':disabled':{
-        color: 'muted',
-        backgroundColor: 'grey',
+        color: 'grey',
+        backgroundColor: 'muted',
         cursor: 'not-allowed'
       }
       
