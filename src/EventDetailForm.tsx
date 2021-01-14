@@ -105,8 +105,8 @@ export const EventDetailForm: React.FC<
           formControls={formControls}
         />
       </Box>
-      <Flex>
-        <Box m={1} sx={{ flex: 1 }}>
+      <Flex sx={{ flexDirection: "column", marginTop:'1rem' }}>
+        <Box m={1}>
           <Button
             sx={{ width: "100%" }}
             disabled={!formControls.isValid}
@@ -115,7 +115,7 @@ export const EventDetailForm: React.FC<
             {submitLabel || "Submit"}
           </Button>
         </Box>
-        <Box m={1} sx={{ flex: 1 }}>
+        <Box m={1}>
           <Button
             sx={{
               width: "100%",
