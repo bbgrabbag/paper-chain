@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Card, Close, Flex } from "theme-ui";
 
 interface UseModalHookAPI {
   open: boolean;
@@ -33,11 +34,36 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = (props) => {
       `Cannot mount modal to DOM. Element with selector '${props.rootSelector}' not found.`
     );
 
+  const handleBackgroundClick = (e: React.MouseEvent) => {
+    // e.preventDefault();
+    // e.stopPropagation();
+    const { target } = e;
+    if (!(target as HTMLDivElement).classList.contains("modal-backdrop"))
+      return;
+    props.modalAPI.toggleModal();
+  };
+
   const modalContainer = (
-    <div>
-      <button onClick={props.modalAPI.toggleModal}>X</button>
-      <section>{props.children}</section>
-    </div>
+    <Flex
+      className="modal-backdrop"
+      onClick={handleBackgroundClick}
+      bg="muted"
+      sx={{
+        position: "absolute",
+        flexDirection: "column",
+        width: "100vw",
+        height: "100vh",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Card bg="background">
+        <Flex sx={{ justifyContent: "flex-end" }}>
+          <Close onClick={props.modalAPI.toggleModal} />
+        </Flex>
+        <Flex sx={{ padding: "1rem" }}>{props.children}</Flex>
+      </Card>
+    </Flex>
   );
 
   return ReactDOM.createPortal(

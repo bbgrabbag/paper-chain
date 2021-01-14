@@ -1,6 +1,7 @@
 import React, { InputHTMLAttributes, LabelHTMLAttributes } from "react";
 import { FormHookAPI, DefaultFieldValues } from "./useForm";
 import { Entity } from "./useForm";
+import {Radio as RadioUI, Label, Box} from 'theme-ui';
 
 export interface RadioProps<E, F extends keyof E> {
   label: string;
@@ -34,19 +35,18 @@ export const Radio = <
   };
 
   return (
-    <div>
-      <label {...labelAttrs} htmlFor={inputAttrs?.id}>
-        {label}
-        <input
+    <Box m={1}>
+      <Label {...labelAttrs} htmlFor={inputAttrs?.id}>
+        <RadioUI
           {...inputAttrs}
-          type="radio"
           name={radioGroup}
           checked={
             radioValue === formControls.fieldControls[fieldName].rawValue
           }
           onChange={props.inputAttrs?.onChange || handleChange}
         />
-      </label>
-    </div>
+        {label}
+      </Label>
+    </Box>
   );
 };

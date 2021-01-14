@@ -1,4 +1,5 @@
 import React from "react";
+import { Flex, Text } from "theme-ui";
 
 export interface FormErrorsProps {
   errors: string[];
@@ -7,10 +8,14 @@ export interface FormErrorsProps {
 
 export const FormErrors: React.FC<FormErrorsProps> = (props) => {
   return (
-    <div>
+    <Flex>
       {props.isPristine
         ? []
-        : props.errors.map((err, i) => <span key={i}>{err}</span>)}
-    </div>
+        : props.errors.map((err, i) => (
+            <Text sx={{ color: "error" }} key={i}>
+              {err}
+            </Text>
+          ))}
+    </Flex>
   );
 };

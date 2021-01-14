@@ -9,6 +9,7 @@ import {
 import { useForm, CustomValidatorKeys } from "./config";
 import { PaperChainEvent, PaperChainEventType } from "./entities";
 import { RadioGroup } from "./lib/Form/RadioGroup";
+import { Button, Flex, Box } from "theme-ui";
 
 export interface EventDetailFormProps {
   event?: PaperChainEvent;
@@ -36,7 +37,10 @@ export const EventDetailForm: React.FC<
       },
       timestamp: {
         type: DefaultFormatterKeys.Date,
-        validators: [CustomValidatorKeys.Required,CustomValidatorKeys.PaperChainEventType],
+        validators: [
+          CustomValidatorKeys.Required,
+          CustomValidatorKeys.PaperChainEventType,
+        ],
       },
     },
     event || {
@@ -51,43 +55,60 @@ export const EventDetailForm: React.FC<
   };
 
   return (
-    <Form {...formAttrs} onSubmit={formAttrs?.onSubmit || handleSubmit}>
+    <Form
+      {...formAttrs}
+      sx={{ flexDirection: "column" }}
+      onSubmit={formAttrs?.onSubmit || handleSubmit}
+    >
       <TextField
         fieldName={"name"}
         label={"Event Name"}
         formControls={formControls}
       />
-      <RadioGroup
-        errors={formControls.fieldControls.type.errors}
-        isPristine={formControls.isPristine}
-      >
-        <Radio
-          label="Since"
-          radioGroup={"paper-chain-type"}
-          radioValue={PaperChainEventType.Since}
-          fieldName={"type"}
+      <Flex sx={{ alignItems: "center" }}>
+        <RadioGroup
+          errors={formControls.fieldControls.type.errors}
+          isPristine={formControls.isPristine}
+        >
+          <Radio
+            label="Since"
+            radioGroup={"paper-chain-type"}
+            radioValue={PaperChainEventType.Since}
+            fieldName={"type"}
+            formControls={formControls}
+          />
+          <Radio
+            label="Until"
+            radioGroup={"paper-chain-type"}
+            radioValue={PaperChainEventType.Until}
+            fieldName={"type"}
+            formControls={formControls}
+          />
+        </RadioGroup>
+      </Flex>
+      <Box>
+        <DatePicker
+          label={"Event Date"}
+          fieldName={"timestamp"}
           formControls={formControls}
         />
-        <Radio
-          label="Until"
-          radioGroup={"paper-chain-type"}
-          radioValue={PaperChainEventType.Until}
-          fieldName={"type"}
-          formControls={formControls}
-        />
-      </RadioGroup>
-
-      <DatePicker
-        label={"Event Date"}
-        fieldName={"timestamp"}
-        formControls={formControls}
-      />
-      <button disabled={!formControls.isValid} type="submit">
-        Submit
-      </button>
-      <button onClick={onCancel} type="button">
-        Cancel
-      </button>
+      </Box>
+      <Flex>
+        <Box m={1} sx={{ flex: 1 }}>
+          <Button
+            sx={{ width: "100%" }}
+            disabled={!formControls.isValid}
+            type="submit"
+          >
+            Submit
+          </Button>
+        </Box>
+        <Box m={1} sx={{ flex: 1 }}>
+          <Button sx={{ width: "100%" }} onClick={onCancel} type="button">
+            Cancel
+          </Button>
+        </Box>
+      </Flex>
     </Form>
   );
 };

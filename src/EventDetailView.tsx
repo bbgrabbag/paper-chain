@@ -1,9 +1,13 @@
 import React from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import { Box, Button, Flex } from "theme-ui";
 import { CustomRouteParams, PaperChainEventType } from "./entities";
 import { EventsContext } from "./EventsProvider";
 import { ButtonLink, Loading } from "./lib";
 import { formatTimestamp, formatTimestampMetrics } from "./util";
+import { Heading } from "theme-ui";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export const EventDetailView: React.FC = () => {
   const route = useRouteMatch<CustomRouteParams>();
@@ -34,21 +38,34 @@ export const EventDetailView: React.FC = () => {
   );
 
   return (
-    <div>
-      <header>
-        {/* <button>Y</button>
-        <button>M</button>
-        <button>D</button> */}
-        <ButtonLink to={`/event/${event?.id}/edit`}>Edit</ButtonLink>
-      </header>
-      <section>
-        <h1>{fragments.metrics}</h1>
-        <h5>{fragments.type}</h5>
-        <h3>{fragments.eventName}</h3>
-      </section>
-      <footer>
-        <button onClick={handleDelete}>X</button>
-      </footer>
-    </div>
+    <Flex sx={{ flexDirection: "column", height: "100%" }}>
+      <Box sx={{flex: 1}}>
+        <Heading as="h1" sx={{ textAlign: "center", padding:'3rem', fontSize:52 }}>
+          {fragments.metrics}
+        </Heading>
+        <Heading as="h3" sx={{ textAlign: "center", fontSize:36 }}>
+          {fragments.type}
+        </Heading>
+        <Heading as="h2" sx={{ textAlign: "center", fontSize:42 }}>
+          {fragments.eventName}
+        </Heading>
+      </Box>
+      <Flex sx={{ justifyContent: "space-between" }}>
+        <Box m={1}>
+          <ButtonLink variant="iconSm" to={`/event/${event?.id}/edit`}>
+            <FontAwesomeIcon icon={faEdit} />
+          </ButtonLink>
+        </Box>
+        <Box m={1}>
+          <Button
+            variant="iconSm"
+            sx={{ color: "error" }}
+            onClick={handleDelete}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </Button>
+        </Box>
+      </Flex>
+    </Flex>
   );
 };

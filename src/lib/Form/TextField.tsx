@@ -1,6 +1,7 @@
 import React, { InputHTMLAttributes, LabelHTMLAttributes } from "react";
 import { FormErrors } from "./FormErrors";
 import { Entity, FormHookAPI, DefaultFieldValues } from "./useForm";
+import { Input, Label, Box } from "theme-ui";
 
 interface TextFieldProps<E, F extends keyof E> {
   formControls: FormHookAPI<E>;
@@ -24,20 +25,20 @@ export const TextField = <
   };
 
   return (
-    <div>
-      <label {...labelAttrs} htmlFor={inputAttrs?.id}>
+    <Box m={1}>
+      <Label {...labelAttrs} htmlFor={inputAttrs?.id}>
         {label}
-        <input
-          {...inputAttrs}
-          value={formControls.fieldControls[fieldName].displayValue}
-          type="text"
-          onChange={inputAttrs?.onChange || handleChange}
-        />
-        <FormErrors
-          isPristine={formControls.isPristine}
-          errors={formControls.fieldControls[fieldName].errors}
-        />
-      </label>
-    </div>
+      </Label>
+      <Input
+        {...inputAttrs}
+        value={formControls.fieldControls[fieldName].displayValue}
+        type="text"
+        onChange={inputAttrs?.onChange || handleChange}
+      />
+      <FormErrors
+        isPristine={formControls.isPristine}
+        errors={formControls.fieldControls[fieldName].errors}
+      />
+    </Box>
   );
 };

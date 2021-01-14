@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes } from 'react';
+import {Button, ButtonProps} from 'theme-ui';
 
 import {useHistory} from 'react-router-dom';
 
@@ -7,11 +8,11 @@ export interface ButtonLinkProps extends ButtonHTMLAttributes<Element>{
     state?: Record<string, unknown>
 }
 
-export const ButtonLink: React.FC<React.PropsWithChildren<ButtonLinkProps>> = (props) =>{
+export const ButtonLink: React.FC<React.PropsWithChildren<ButtonLinkProps & ButtonProps>> = (props) =>{
     const {to, state, children} = props;
     const historyAPI = useHistory();
     const handleClick = () => historyAPI.push(to, state)
     return (
-        <button onClick={handleClick}{...props}>{children}</button>
+        <Button onClick={handleClick}{...props}>{children}</Button>
     )
 }

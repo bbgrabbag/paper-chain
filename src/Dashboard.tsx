@@ -1,13 +1,11 @@
 import React from "react";
-
+import { Flex } from "theme-ui";
 import { EventGrid } from "./EventGrid";
 
 export const Dashboard: React.FC = () => {
   return (
-    <div>
-      <section>
-        <EventGrid />
-      </section>
-    </div>
+    <Flex className="dashboard" sx={{ height: "100%" }}>
+      <EventGrid />
+    </Flex>
   );
 };

@@ -3,6 +3,7 @@ import { EventsContext, UseEventsHookAPI } from "./EventsProvider";
 import { DefaultFormatterKeys, TextField, Form } from "./lib";
 import { useForm } from "./config";
 import { SearchEntity } from "./entities";
+import { Box, Button } from "theme-ui";
 
 export const useFilterOnSearch = (
   keyword: string | null,
@@ -35,15 +36,19 @@ export const EventSearchForm: React.FC = () => {
 
   return (
     <Form onSubmit={(e) => e.preventDefault()}>
-      <TextField
-        label={""}
-        fieldName={"keyword"}
-        formControls={formControls}
-        inputAttrs={{ placeholder: "Search Events" }}
-      />
-      <button type="button" onClick={handleClear}>
-        Clear Search
-      </button>
+      <Box sx={{ flex: "1 1 auto" }}>
+        <TextField
+          label={""}
+          fieldName={"keyword"}
+          formControls={formControls}
+          inputAttrs={{ placeholder: "Search Events" }}
+        />
+      </Box>
+      <Box m={1}>
+        <Button type="button" onClick={handleClear}>
+          Clear
+        </Button>
+      </Box>
     </Form>
   );
 };
