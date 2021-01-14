@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import './global.css';
 import { BrowserRouter } from "react-router-dom";
 import { EventsProvider } from "./EventsProvider";
 import { CustomThemeProvider } from "./theme/";
+
 
 import App from "./App";
 

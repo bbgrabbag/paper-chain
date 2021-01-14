@@ -19,12 +19,21 @@ export const EventDetailAdd: React.FC = () => {
   return (
     <div>
       {!modalAPI.open && (
-        <IconButton bg='primary'sx={{color: 'background'}}onClick={modalAPI.toggleModal}>
+        <IconButton
+          bg="primary"
+          sx={{ color: "background", boxShadow:'3px 3px 9px -4px rgba(0, 0, 0, 3.125)' }}
+          onClick={modalAPI.toggleModal}
+        >
           <FontAwesomeIcon icon={faPlus} />
         </IconButton>
       )}
       <Modal rootSelector="#modal-root" modalAPI={modalAPI}>
-        <EventDetailForm onCancel={handleCancel} onSubmit={handleSubmit} />
+        <EventDetailForm
+          onCancel={handleCancel}
+          onSubmit={handleSubmit}
+          submitLabel={"Create"}
+          event={{name: null, type: null, timestamp: new Date()}}
+        />
       </Modal>
     </div>
   );

@@ -17,21 +17,15 @@ export const EventGrid: React.FC = () => {
   return (
     <Flex
       className="event-grid"
-      sx={{ flexDirection: "column", height: "100%", overflow: "hidden", width: '100%' }}
+      sx={{ flexDirection: "column", width: '100%' }}
     >
       <Box m={1}>
         <EventSearchForm />
-        {/* <button>Sort</button>
-        <button>Filter</button> */}
       </Box>
-
-      <Box
-        m={1}
-        sx={{ height: "90%", overflowY: "scroll", paddingBottom: 100 }}
-      >
-        <Flex sx={{ flexDirection: "column" }}>{renderEventList()}</Flex>
+      <Box m={1}>
+        <Flex sx={{ flexDirection: "column", paddingBottom:'4.5rem' }}>{renderEventList()}</Flex>
       </Box>
-      <Box m={1} sx={{ position: "fixed", bottom: 16 }}>
+      <Box m={1} sx={{ position: "fixed", bottom: '32px' }}>
         <EventDetailAdd />
       </Box>
     </Flex>

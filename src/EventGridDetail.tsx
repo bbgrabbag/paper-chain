@@ -3,9 +3,9 @@ import { PaperChainEvent, PaperChainEventType } from "./entities";
 import { EventsContext } from "./EventsProvider";
 import { ButtonLink, NavLink } from "./lib";
 import { formatTimestampMetrics, formatTimestamp } from "./util";
-import { Button, Flex, Box, Card, Text } from "theme-ui";
+import { IconButton, Flex, Box, Card, Text } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export interface EventGridDetailProps {
   event: PaperChainEvent;
@@ -34,20 +34,18 @@ export const EventGridDetail: React.FC<
     );
     return (
       <>
-        <Text sx={{ color: "secondary", fontSize: 3 }}>{fragments.metrics}</Text>
+        <Text sx={{ color: "secondary", fontSize: 3 }}>{fragments.metrics.join(' ')}</Text>
         <Text sx={{ display: "inline" }}>{fragments.type} </Text>
         <Text sx={{ display: "inline", fontWeight: "bold" }}>
           {fragments.eventName}
         </Text>
       </>
     );
-
-    // `${fragments.metrics} ${fragments.type} ${fragments.eventName}`;
   };
 
   return (
-    <Card m={1}>
-      <Flex sx={{ alignItems: "center" }}>
+    <Card className="event-grid-detail"variant={props.event.type === PaperChainEventType.Since ? 'since' : 'until'}m={2}>
+      <Flex sx={{ alignItems: "flex-end" }}>
         <Box m={1} sx={{ flex: 1, display: "flex", alignItems: "center" }}>
           <NavLink sx={{ width: "100%" }} to={`/event/${props.event.id}/view`}>
             {displayEventTimestamp()}
@@ -59,13 +57,13 @@ export const EventGridDetail: React.FC<
           </ButtonLink>
         </Box>
         <Box m={1}>
-          <Button
+          <IconButton
             variant={"iconSm"}
-            sx={{ color: "error" }}
+            sx={{ color: "darken" }}
             onClick={handleDelete}
           >
-            <FontAwesomeIcon icon={faTimes} />
-          </Button>
+            <FontAwesomeIcon icon={faTrash} />
+          </IconButton>
         </Box>
       </Flex>
     </Card>

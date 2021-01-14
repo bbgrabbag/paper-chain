@@ -4,7 +4,7 @@ import { EventGrid } from "./EventGrid";
 
 export const Dashboard: React.FC = () => {
   return (
-    <Flex className="dashboard" sx={{ height: "100%" }}>
+    <Flex className="dashboard">
       <EventGrid />
     </Flex>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import { Flex, Box, Text } from "theme-ui";
 import { CustomRouteParams, PaperChainEvent } from "./entities";
 import { EventDetailForm, EventDetailFormProps } from "./EventDetailForm";
 import { EventsContext } from "./EventsProvider";
@@ -13,9 +14,13 @@ export const EventDetailEdit: React.FC = () => {
 
   if (!event)
     return (
-      <Loading>
-        <p>There was a problem loading the event</p>
-      </Loading>
+      <Flex sx={{justifyContent:'center'}}>
+        <Box>
+          <Loading>
+            <Text>There was a problem loading the event</Text>
+          </Loading>
+        </Box>
+      </Flex>
     );
 
   const handleCancel = () => {
@@ -29,12 +34,13 @@ export const EventDetailEdit: React.FC = () => {
   };
 
   return (
-    <div>
+    <Flex >
       <EventDetailForm
         onCancel={handleCancel}
         onSubmit={handleSubmit}
         event={event as PaperChainEvent}
+        submitLabel='Save'
       />
-    </div>
+    </Flex>
   );
 };

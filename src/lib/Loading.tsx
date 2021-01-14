@@ -1,4 +1,5 @@
 import React, { PropsWithChildren, SetStateAction } from "react";
+import {Spinner} from 'theme-ui';
 
 export enum LoaderStates {
   Loading = "LOADING",
@@ -44,7 +45,7 @@ export const Loading: React.FC<PropsWithChildren<LoadingProps>> = ({
 
   switch (loaderAPI.status) {
     case LoaderStates.Loading:
-      return <div>...Loading</div>;
+      return <Spinner>...Loading</Spinner>;
     case LoaderStates.TimedOut:
       return <div>{props.children}</div>;
   }

@@ -16,7 +16,7 @@ const useTheme = (
   initialTheme: keyof ThemeMap
 ): ThemeAPI => {
   const [themeName, setTheme] = React.useState<keyof ThemeMap>(initialTheme);
-
+  
   return {
     theme: themeMap[themeName],
     themeName,

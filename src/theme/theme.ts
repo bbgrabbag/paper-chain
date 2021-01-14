@@ -29,15 +29,27 @@ const baseIconButtons = {
   borderRadius: "50%",
   width: "4rem",
   height: "4rem",
-  fontSize: '1.2rem'
+  fontSize: "1.2rem",
+};
+
+const baseCards = {
+  padding: 2,
+  borderRadius: 4,
+  boxShadow: "3px 4px 12px -9px rgba(0, 0, 0, 3.125)",
 };
 
 export const defaultVariants = {
   cards: {
     primary: {
-      padding: 2,
-      borderRadius: 4,
-      boxShadow: "0 0 8px rgba(0, 0, 0, 0.125)",
+      ...baseCards
+    },
+    until: {
+      ...baseCards,
+      backgroundColor: 'secondaryFade',
+    },
+    since: {
+      ...baseCards,
+      backgroundColor: 'primaryFade',
     },
   },
   buttons: {
@@ -49,10 +61,9 @@ export const defaultVariants = {
     },
     iconSm: {
       ...baseIconButtons,
-      width: "3rem",
-      height: "3rem",
-      fontSize: '1rem'
-
+      width: "2.5rem",
+      height: "2.5rem",
+      fontSize: ".7rem",
     },
   },
   links: {

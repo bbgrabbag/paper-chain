@@ -45,6 +45,8 @@
       "gray": "#dfe3e8",
       "accent": "#f49342",
       "darken": "#00044c",
+      "primaryFade": "#C9CDEB",
+      "secondaryFade": "#AACFE8",
       "error": "red",
       "modes": {
         "dark": {

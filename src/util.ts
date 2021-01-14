@@ -54,34 +54,33 @@ export const formatTimestamp = (
 };
 
 export interface FormattedTimestampMetrics {
-  metrics: string;
+  metrics: string[];
   eventName: string;
   type: string;
+  days?: number;
 }
 
 export const formatTimestampMetrics = (
   metrics: TimestampMetrics,
   type: PaperChainEventType,
   name: string,
-  abbr?: boolean
+  abbr?: boolean,
 ): FormattedTimestampMetrics => {
-  const data = (Object.keys(metrics) as TimestampFormats[]).reduce(
-    (s, k, i, a) => {
+  const data = (Object.keys(metrics) as TimestampFormats[]).reduce<string[]>(
+    (s, k) => {
       const value = metrics[k];
       const measurement = abbr
         ? k[0]
-        : " " + (metrics[k] > 1 ? k : k.slice(0, k.indexOf("s")));
-      const separator = i === a.length - 1 ? "" : ",";
-      const fragment = value ? `${value}${measurement}${separator}` : "";
-      return `${s} ${fragment}`;
+        : (metrics[k] > 1 ? k : k.slice(0, k.indexOf("s")));
+      const fragment = value ? `${value}${abbr ? '' : ' '}${measurement}` : null;
+      return fragment == null ? s : [...s, fragment];
     },
-    ""
+    []
   );
-  
+
   return {
-    metrics: data.trim() === '' ? '< 1 day' : data,
+    metrics: data.length ? data : ["< 1 day"],
     eventName: name,
     type: type.toLowerCase(),
   };
 };
-

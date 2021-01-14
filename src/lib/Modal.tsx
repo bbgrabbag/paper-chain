@@ -47,9 +47,10 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = (props) => {
     <Flex
       className="modal-backdrop"
       onClick={handleBackgroundClick}
-      bg="muted"
+      bg="primary"
       sx={{
-        position: "absolute",
+        position: "fixed",
+        zIndex:100,
         flexDirection: "column",
         width: "100vw",
         height: "100vh",

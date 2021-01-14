@@ -14,6 +14,8 @@ import { Button, Flex, Box } from "theme-ui";
 export interface EventDetailFormProps {
   event?: PaperChainEvent;
   formAttrs?: FormHTMLAttributes<HTMLFormElement>;
+  submitLabel?: string;
+  cancelLabel?: string;
   onSubmit: (
     e: React.FormEvent<HTMLFormElement>,
     paperChainEvent: PaperChainEvent
@@ -24,7 +26,14 @@ export interface EventDetailFormProps {
 export const EventDetailForm: React.FC<
   React.PropsWithChildren<EventDetailFormProps>
 > = (props) => {
-  const { event, onSubmit, onCancel, formAttrs } = props;
+  const {
+    event,
+    onSubmit,
+    onCancel,
+    submitLabel,
+    cancelLabel,
+    formAttrs,
+  } = props;
   const formControls = useForm(
     {
       name: {
@@ -57,14 +66,9 @@ export const EventDetailForm: React.FC<
   return (
     <Form
       {...formAttrs}
-      sx={{ flexDirection: "column" }}
+      sx={{ flexDirection: "column", width: "100%" }}
       onSubmit={formAttrs?.onSubmit || handleSubmit}
     >
-      <TextField
-        fieldName={"name"}
-        label={"Event Name"}
-        formControls={formControls}
-      />
       <Flex sx={{ alignItems: "center" }}>
         <RadioGroup
           errors={formControls.fieldControls.type.errors}
@@ -86,6 +90,11 @@ export const EventDetailForm: React.FC<
           />
         </RadioGroup>
       </Flex>
+      <TextField
+        fieldName={"name"}
+        label={"Event Name"}
+        formControls={formControls}
+      />
       <Box>
         <DatePicker
           label={"Event Date"}
@@ -100,12 +109,20 @@ export const EventDetailForm: React.FC<
             disabled={!formControls.isValid}
             type="submit"
           >
-            Submit
+            {submitLabel || "Submit"}
           </Button>
         </Box>
         <Box m={1} sx={{ flex: 1 }}>
-          <Button sx={{ width: "100%", backgroundColor: 'background', color: 'secondary' }} onClick={onCancel} type="button">
-            Cancel
+          <Button
+            sx={{
+              width: "100%",
+              backgroundColor: "background",
+              color: "secondary",
+            }}
+            onClick={onCancel}
+            type="button"
+          >
+            {cancelLabel || "Cancel"}
           </Button>
         </Box>
       </Flex>

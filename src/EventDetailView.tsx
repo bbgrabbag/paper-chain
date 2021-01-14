@@ -1,13 +1,13 @@
 import React from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { Box, Button, Flex } from "theme-ui";
+import { Box, Flex, IconButton } from "theme-ui";
 import { CustomRouteParams, PaperChainEventType } from "./entities";
 import { EventsContext } from "./EventsProvider";
 import { ButtonLink, Loading } from "./lib";
 import { formatTimestamp, formatTimestampMetrics } from "./util";
-import { Heading } from "theme-ui";
+import { Heading, Text } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export const EventDetailView: React.FC = () => {
   const route = useRouteMatch<CustomRouteParams>();
@@ -17,9 +17,13 @@ export const EventDetailView: React.FC = () => {
 
   if (event == null)
     return (
-      <Loading>
-        <p>There was a problem loading the event</p>
-      </Loading>
+      <Flex sx={{ justifyContent: "center" }}>
+        <Box>
+          <Loading>
+            <Text>There was a problem loading the event</Text>
+          </Loading>
+        </Box>
+      </Flex>
     );
 
   const handleDelete = () => {
@@ -38,32 +42,53 @@ export const EventDetailView: React.FC = () => {
   );
 
   return (
-    <Flex sx={{ flexDirection: "column", height: "100%" }}>
-      <Box sx={{flex: 1}}>
-        <Heading as="h1" sx={{ textAlign: "center", padding:'3rem', fontSize:56 }}>
-          {fragments.metrics}
+    <Flex sx={{justifyContent:'center'}}>
+      <Box>
+        <Heading
+          as="h1"
+          sx={{ textAlign: "center", padding: "1rem", fontSize: 38 }}
+        >
+          {fragments.metrics.map((s) => (
+            <span style={{ display: "block" }} key={s}>
+              {s}
+            </span>
+          ))}
         </Heading>
-        <Heading as="h3" sx={{ textAlign: "center", fontSize:36, fontWeight: 350 }}>
+        <Heading
+          as="h3"
+          sx={{ textAlign: "center", fontSize: 24, fontWeight: 350 }}
+        >
           {fragments.type}
         </Heading>
-        <Heading as="h2" sx={{ textAlign: "center", padding:'3rem', fontSize:42 }}>
+        <Heading
+          as="h2"
+          sx={{ textAlign: "center", padding: "1rem", fontSize: 32 }}
+        >
           {fragments.eventName}
         </Heading>
       </Box>
-      <Flex sx={{ justifyContent: "space-between" }}>
+      <Flex
+        sx={{
+          justifyContent: "space-between",
+          position: "fixed",
+          width: "100%",
+          bottom: "1rem",
+          backgroundColor: "transparent",
+        }}
+      >
         <Box m={1}>
           <ButtonLink variant="icon" to={`/event/${event?.id}/edit`}>
             <FontAwesomeIcon icon={faEdit} />
           </ButtonLink>
         </Box>
         <Box m={1}>
-          <Button
+          <IconButton
             variant="icon"
-            sx={{ color: "error" }}
+            sx={{ color: "darken" }}
             onClick={handleDelete}
           >
-            <FontAwesomeIcon icon={faTimes} />
-          </Button>
+            <FontAwesomeIcon icon={faTrash} />
+          </IconButton>
         </Box>
       </Flex>
     </Flex>
