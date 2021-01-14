@@ -41,7 +41,7 @@ export const EventSearchForm: React.FC = () => {
           label={""}
           fieldName={"keyword"}
           formControls={formControls}
-          inputAttrs={{ placeholder: "Search Events" }}
+          inputAttrs={{ placeholder: "Search" }}
         />
       </Box>
       <Box m={1}>

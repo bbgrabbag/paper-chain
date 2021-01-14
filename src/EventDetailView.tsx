@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { Box, Flex, IconButton } from "theme-ui";
 import { CustomRouteParams, PaperChainEventType } from "./entities";
@@ -8,12 +8,14 @@ import { formatTimestamp, formatTimestampMetrics } from "./util";
 import { Heading, Text } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faLessThan } from "@fortawesome/free-solid-svg-icons";
+import { ConfigContext, TimeFormatOptions } from "./ConfigProvider";
 
 export const EventDetailView: React.FC = () => {
   const route = useRouteMatch<CustomRouteParams>();
   const historyRouter = useHistory();
   const eventAPI = React.useContext(EventsContext);
   const event = eventAPI.getEventById(route.params.id);
+  const configAPI = useContext(ConfigContext);
 
   if (event == null)
     return (
@@ -34,8 +36,8 @@ export const EventDetailView: React.FC = () => {
   const fragments = formatTimestampMetrics(
     formatTimestamp(
       event?.type as PaperChainEventType,
-      event?.name as string,
-      event?.timestamp as Date
+      event?.timestamp as Date,
+      configAPI.timeFormat === TimeFormatOptions.DayView
     ),
     event?.type as PaperChainEventType,
     event?.name as string

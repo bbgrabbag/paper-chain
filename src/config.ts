@@ -47,4 +47,5 @@ export const useForm = useFormFactory<
 });
 
 export const PaperChainEventsStorageKey = "PAPER_CHAIN_EVENTS";
+export const PaperChainTimeFormatKey = 'PAPER_CHAIN_TIME_FORMAT';
 

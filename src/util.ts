@@ -14,19 +14,20 @@ export interface TimestampMetrics {
 
 export enum TimestampFormats {
   Years = "years",
-  Months = "weeks",
-  Weeks = "months",
+  Months = "months",
+  Weeks = "weeks",
   Days = "days",
 }
 
 export const formatTimestamp = (
   type: PaperChainEventType,
-  name: string,
-  date: Date
+  date: Date,
+  daysOnly = false
 ): TimestampMetrics => {
   const d = new Date();
   const today = Moment(d.getTime() + d.getTimezoneOffset() / 60);
   const timestamp = Moment(date.getTime() + date.getTimezoneOffset() / 60);
+  if(type === PaperChainEventType.Until) timestamp.add(1000 * 60 * 60 * 24)
 
   const metrics: TimestampFormats[] = [
     TimestampFormats.Years,
@@ -42,12 +43,19 @@ export const formatTimestamp = (
     days: 0,
   };
 
-  const dif =
-    type === PaperChainEventType.Since
-      ? today.diff(timestamp)
-      : timestamp.diff(today) + 1000 * 60 * 60 * 24;
+  
+  if (daysOnly)
+    return {
+      ...output,
+      days: Math.abs(today.diff(timestamp, 'days')),
+    };
+
   metrics.forEach((metric) => {
-    output[metric] = Moment.duration(dif).get(metric);
+    const before = type === PaperChainEventType.Since ? timestamp : today;
+    const after = before === today ? timestamp : today;
+    const dif = after.diff(before, metric);
+    output[metric] = Math.abs(dif);
+    before.add(dif, metric);
   });
 
   return output;
@@ -64,15 +72,19 @@ export const formatTimestampMetrics = (
   metrics: TimestampMetrics,
   type: PaperChainEventType,
   name: string,
-  abbr?: boolean,
+  abbr?: boolean
 ): FormattedTimestampMetrics => {
   const data = (Object.keys(metrics) as TimestampFormats[]).reduce<string[]>(
     (s, k) => {
       const value = metrics[k];
       const measurement = abbr
         ? k[0]
-        : (metrics[k] > 1 ? k : k.slice(0, k.indexOf("s")));
-      const fragment = value ? `${value}${abbr ? '' : ' '}${measurement}` : null;
+        : metrics[k] > 1
+        ? k
+        : k.slice(0, k.indexOf("s"));
+      const fragment = value
+        ? `${value}${abbr ? "" : " "}${measurement}`
+        : null;
       return fragment == null ? s : [...s, fragment];
     },
     []
@@ -81,6 +93,6 @@ export const formatTimestampMetrics = (
   return {
     metrics: data.length ? data : ["< 1 day"],
     eventName: name,
-    type: type[0] + type.slice(1).toLowerCase()
+    type: type[0] + type.slice(1).toLowerCase(),
   };
 };

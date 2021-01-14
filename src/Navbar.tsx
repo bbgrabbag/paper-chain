@@ -4,9 +4,8 @@ import { Flex, Box, IconButton } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
-  faCalendarDay,
-  faClock,
 } from "@fortawesome/free-solid-svg-icons";
+import { TimeFormatSetting } from "./TimeFormatSetting";
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
@@ -28,12 +27,7 @@ export const Navbar: React.FC = () => {
         </Box>
       )}
       <Flex sx={{ flex: "auto", justifyContent: "flex-end" }}>
-        {/* <IconButton>
-          <FontAwesomeIcon icon={faCalendarDay} />
-        </IconButton> */}
-        {/* <IconButton>
-          <FontAwesomeIcon icon={faClock} />
-        </IconButton> */}
+        <TimeFormatSetting />
       </Flex>
     </Flex>
   );

@@ -25,9 +25,9 @@ const useTheme = (
 };
 
 export const CustomThemeProvider: React.FC<
-  React.PropsWithChildren<Record<string, unknown>>
+  React.PropsWithChildren<{ defaultTheme: keyof ThemeMap}>
 > = (props) => {
-  const themeAPI = useTheme(themeMap, "polaris");
+  const themeAPI = useTheme(themeMap, props.defaultTheme);
 
   return (
     <ThemeContext.Provider value={themeAPI}>

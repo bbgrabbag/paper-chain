@@ -5,7 +5,7 @@ import { PaperChainEventsStorageKey } from "./config";
 
 export const EventsContext = React.createContext({} as UseEventsHookAPI);
 
-export type FilterRule = {cb: (e: PaperChainEvent, i?: number) => boolean;}
+export type FilterRule = { cb: (e: PaperChainEvent, i?: number) => boolean };
 
 export interface UseEventsHookAPI {
   events: PaperChainEvent[];
@@ -21,7 +21,9 @@ export interface UseEventsHookAPI {
 type UseEventsHook = () => UseEventsHookAPI;
 export const useEvents: UseEventsHook = () => {
   const [events, setEvents] = React.useState<PaperChainEvent[]>([]);
-  const [filterRule, setFilterRule] = React.useState<FilterRule>({cb: () => true});
+  const [filterRule, setFilterRule] = React.useState<FilterRule>({
+    cb: () => true,
+  });
 
   const create = (event: Exclude<PaperChainEvent, "id" | "createdOn">) => {
     setEvents([
@@ -53,7 +55,7 @@ export const useEvents: UseEventsHook = () => {
     filter,
     getEventById,
     edit,
-    filterRule
+    filterRule,
   };
 };
 
@@ -92,7 +94,10 @@ export const EventsProvider: React.FC<
 > = (props) => {
   const eventsAPI = useEvents();
   useEventsEffects(eventsAPI);
-  const value = React.useMemo(() => eventsAPI, [eventsAPI.events, eventsAPI.filterRule]);
+  const value = React.useMemo(() => eventsAPI, [
+    eventsAPI.events,
+    eventsAPI.filterRule,
+  ]);
 
   return (
     <EventsContext.Provider value={value}>

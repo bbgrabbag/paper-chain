@@ -6,6 +6,7 @@ import { formatTimestampMetrics, formatTimestamp } from "./util";
 import { IconButton, Flex, Box, Card, Text } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faLessThan, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { ConfigContext, TimeFormatOptions } from "./ConfigProvider";
 
 export interface EventGridDetailProps {
   event: PaperChainEvent;
@@ -15,7 +16,7 @@ export const EventGridDetail: React.FC<
   React.PropsWithChildren<EventGridDetailProps>
 > = (props) => {
   const eventAPI = React.useContext(EventsContext);
-
+  const configAPI = React.useContext(ConfigContext);
   const handleDelete = () => {
     eventAPI.remove(props.event?.id as string);
   };
@@ -23,8 +24,8 @@ export const EventGridDetail: React.FC<
   const displayEventTimestamp = () => {
     const metrics = formatTimestamp(
       props.event.type as PaperChainEventType,
-      props.event.name as string,
-      props.event.timestamp as Date
+      props.event.timestamp as Date,
+      configAPI.timeFormat === TimeFormatOptions.DayView
     );
 
     const fragments = formatTimestampMetrics(
