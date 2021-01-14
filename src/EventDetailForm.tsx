@@ -9,7 +9,7 @@ import {
 import { useForm, CustomValidatorKeys } from "./config";
 import { PaperChainEvent, PaperChainEventType } from "./entities";
 import { RadioGroup } from "./lib/Form/RadioGroup";
-import { Button, Flex, Box } from "theme-ui";
+import { Button, Flex, Box, SxProps } from "theme-ui";
 
 export interface EventDetailFormProps {
   event?: PaperChainEvent;
@@ -21,6 +21,7 @@ export interface EventDetailFormProps {
     paperChainEvent: PaperChainEvent
   ) => void;
   onCancel: (e: React.MouseEvent) => void;
+  sx?: SxProps;
 }
 
 export const EventDetailForm: React.FC<
@@ -33,6 +34,7 @@ export const EventDetailForm: React.FC<
     submitLabel,
     cancelLabel,
     formAttrs,
+    sx,
   } = props;
   const formControls = useForm(
     {
@@ -66,7 +68,7 @@ export const EventDetailForm: React.FC<
   return (
     <Form
       {...formAttrs}
-      sx={{ flexDirection: "column", width: "100%" }}
+      sx={{ ...sx, flexDirection: "column", width: "100%" }}
       onSubmit={formAttrs?.onSubmit || handleSubmit}
     >
       <Flex sx={{ alignItems: "center" }}>
@@ -92,12 +94,13 @@ export const EventDetailForm: React.FC<
       </Flex>
       <TextField
         fieldName={"name"}
-        label={"Event Name"}
+        label={""}
         formControls={formControls}
+        inputAttrs={{ placeholder: "Name" }}
       />
       <Box>
         <DatePicker
-          label={"Event Date"}
+          label={"Select Date"}
           fieldName={"timestamp"}
           formControls={formControls}
         />

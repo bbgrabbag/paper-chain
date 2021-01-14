@@ -61,9 +61,9 @@ export const defaultVariants = {
     },
     iconSm: {
       ...baseIconButtons,
-      width: "2.5rem",
-      height: "2.5rem",
-      fontSize: ".7rem",
+      width: "3rem",
+      height: "3rem",
+      fontSize: ".8rem",
     },
   },
   links: {

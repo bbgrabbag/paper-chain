@@ -17,11 +17,14 @@ export const EventDetailAdd: React.FC = () => {
   };
   const handleCancel = () => modalAPI.toggleModal();
   return (
-    <div>
+    <>
       {!modalAPI.open && (
         <IconButton
           bg="primary"
-          sx={{ color: "background", boxShadow:'3px 3px 9px -4px rgba(0, 0, 0, 3.125)' }}
+          sx={{
+            color: "background",
+            boxShadow: "3px 3px 9px -4px rgba(0, 0, 0, 3.125)",
+          }}
           onClick={modalAPI.toggleModal}
         >
           <FontAwesomeIcon icon={faPlus} />
@@ -32,9 +35,9 @@ export const EventDetailAdd: React.FC = () => {
           onCancel={handleCancel}
           onSubmit={handleSubmit}
           submitLabel={"Create"}
-          event={{name: null, type: null, timestamp: new Date()}}
+          event={{ name: null, type: null, timestamp: new Date() }}
         />
       </Modal>
-    </div>
+    </>
   );
 };

@@ -81,6 +81,6 @@ export const formatTimestampMetrics = (
   return {
     metrics: data.length ? data : ["< 1 day"],
     eventName: name,
-    type: type.toLowerCase(),
+    type: type[0] + type.slice(1).toLowerCase()
   };
 };

@@ -7,7 +7,7 @@ import { ButtonLink, Loading } from "./lib";
 import { formatTimestamp, formatTimestampMetrics } from "./util";
 import { Heading, Text } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash, faLessThan } from "@fortawesome/free-solid-svg-icons";
 
 export const EventDetailView: React.FC = () => {
   const route = useRouteMatch<CustomRouteParams>();
@@ -42,15 +42,16 @@ export const EventDetailView: React.FC = () => {
   );
 
   return (
-    <Flex sx={{justifyContent:'center'}}>
-      <Box>
+    <Flex sx={{ justifyContent: "center" }}>
+      <Box sx={{paddingBottom:'3rem'}}>
         <Heading
           as="h1"
           sx={{ textAlign: "center", padding: "1rem", fontSize: 38 }}
         >
           {fragments.metrics.map((s) => (
             <span style={{ display: "block" }} key={s}>
-              {s}
+              {s.includes('<') &&  <FontAwesomeIcon size='xs'icon={faLessThan}></FontAwesomeIcon>}
+              {s.replace(/</g,'')}
             </span>
           ))}
         </Heading>
@@ -62,7 +63,7 @@ export const EventDetailView: React.FC = () => {
         </Heading>
         <Heading
           as="h2"
-          sx={{ textAlign: "center", padding: "1rem", fontSize: 32 }}
+          sx={{ textAlign: "center", padding: "1rem", fontSize: 28 }}
         >
           {fragments.eventName}
         </Heading>
@@ -72,7 +73,7 @@ export const EventDetailView: React.FC = () => {
           justifyContent: "space-between",
           position: "fixed",
           width: "100%",
-          bottom: "1rem",
+          bottom: "0",
           backgroundColor: "transparent",
         }}
       >

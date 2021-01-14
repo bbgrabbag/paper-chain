@@ -14,7 +14,7 @@ export const EventDetailEdit: React.FC = () => {
 
   if (!event)
     return (
-      <Flex sx={{justifyContent:'center'}}>
+      <Flex sx={{ justifyContent: "center" }}>
         <Box>
           <Loading>
             <Text>There was a problem loading the event</Text>
@@ -34,12 +34,19 @@ export const EventDetailEdit: React.FC = () => {
   };
 
   return (
-    <Flex >
+    <Flex
+      sx={{
+        justifyContent: "center",
+        margin: "auto",
+        width: "85%",
+        maxWidth: ["600px"],
+      }}
+    >
       <EventDetailForm
         onCancel={handleCancel}
         onSubmit={handleSubmit}
         event={event as PaperChainEvent}
-        submitLabel='Save'
+        submitLabel="Save"
       />
     </Flex>
   );

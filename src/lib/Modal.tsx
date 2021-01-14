@@ -58,7 +58,7 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = (props) => {
         alignItems: "center",
       }}
     >
-      <Card bg="background">
+      <Card className='modal-content'bg="background"sx={{width: '85%', maxWidth:['600px']}}>
         <Flex sx={{ justifyContent: "flex-end" }}>
           <Close onClick={props.modalAPI.toggleModal} />
         </Flex>

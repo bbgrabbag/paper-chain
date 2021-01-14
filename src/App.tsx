@@ -8,7 +8,7 @@ import { Navbar } from "./Navbar";
 
 const App: React.FunctionComponent = (): React.ReactElement => {
   return (
-    <Flex className="app" sx={{ flexDirection: "column" }}>
+    <Flex className="app" sx={{ flexDirection: "column"}}>
       <Box>
         <Navbar />
       </Box>
