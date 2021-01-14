@@ -52,13 +52,13 @@ export const EventDetailView: React.FC = () => {
       </Box>
       <Flex sx={{ justifyContent: "space-between" }}>
         <Box m={1}>
-          <ButtonLink variant="iconSm" to={`/event/${event?.id}/edit`}>
+          <ButtonLink variant="icon" to={`/event/${event?.id}/edit`}>
             <FontAwesomeIcon icon={faEdit} />
           </ButtonLink>
         </Box>
         <Box m={1}>
           <Button
-            variant="iconSm"
+            variant="icon"
             sx={{ color: "error" }}
             onClick={handleDelete}
           >

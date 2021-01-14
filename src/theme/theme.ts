@@ -9,26 +9,28 @@ export interface ThemeMap {
 
 const baseButtons = {
   color: "background",
-      bg: "primary",
-      '&:hover':{
-        color: 'highlight',
-        backgroundColor: 'muted',
-        cursor: 'pointer'
-      },
-      ':disabled':{
-        color: 'grey',
-        backgroundColor: 'muted',
-        cursor: 'not-allowed'
-      }
-      
-}
+  bg: "primary",
+  "&:hover": {
+    color: "highlight",
+    backgroundColor: "muted",
+    cursor: "pointer",
+  },
+  ":disabled": {
+    color: "grey",
+    backgroundColor: "muted",
+    cursor: "not-allowed",
+  },
+};
 
 const baseIconButtons = {
   ...baseButtons,
-  borderRadius: '50%',
-      width: '4rem',
-      height: '4rem',
-}
+  color: "accent",
+  backgroundColor: "background",
+  borderRadius: "50%",
+  width: "4rem",
+  height: "4rem",
+  fontSize: '1.2rem'
+};
 
 export const defaultVariants = {
   cards: {
@@ -40,21 +42,18 @@ export const defaultVariants = {
   },
   buttons: {
     primary: {
-      ...baseButtons
-    },
-    icon:{
       ...baseButtons,
-      borderRadius: '50%',
-      width: '4rem',
-      height: '4rem',
     },
-    iconSm:{
+    icon: {
       ...baseIconButtons,
-      color: 'accent',
-      backgroundColor: 'background',
-      width:'3rem',
-      height:'3rem'
-    }
+    },
+    iconSm: {
+      ...baseIconButtons,
+      width: "3rem",
+      height: "3rem",
+      fontSize: '1rem'
+
+    },
   },
   links: {
     bold: {

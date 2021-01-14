@@ -19,7 +19,7 @@ export const EventDetailAdd: React.FC = () => {
   return (
     <div>
       {!modalAPI.open && (
-        <IconButton onClick={modalAPI.toggleModal}>
+        <IconButton bg='primary'sx={{color: 'background'}}onClick={modalAPI.toggleModal}>
           <FontAwesomeIcon icon={faPlus} />
         </IconButton>
       )}

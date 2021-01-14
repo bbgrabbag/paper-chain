@@ -12,7 +12,7 @@ const App: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Flex className="app" sx={{ flexDirection: "column", height: "100%" }}>
       <Box className="app-header" sx={{ flex: 0.1 }}>
-        <ButtonLink variant="iconSm" to="/dashboard" sx={{ color: "primary" }}>
+        <ButtonLink variant="icon" to="/dashboard" sx={{ color: "primary" }}>
           <FontAwesomeIcon icon={faScroll} />
         </ButtonLink>
       </Box>
