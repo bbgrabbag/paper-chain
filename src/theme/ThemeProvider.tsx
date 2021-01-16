@@ -5,8 +5,8 @@ import { ThemeProvider } from "../lib/";
 
 export interface ThemeAPI {
   theme: Theme;
-  themeName: keyof ThemeMap;
-  setTheme: React.Dispatch<SetStateAction<keyof ThemeMap>>;
+  themeName: keyof typeof themeMap;
+  setTheme: React.Dispatch<SetStateAction<keyof typeof themeMap>>;
 }
 
 export const ThemeContext = React.createContext<ThemeAPI>({} as ThemeAPI);
@@ -18,14 +18,14 @@ const useTheme = (
   const [themeName, setTheme] = React.useState<keyof ThemeMap>(initialTheme);
   
   return {
-    theme: themeMap[themeName],
+    theme: themeMap[themeName](),
     themeName,
     setTheme,
   };
 };
 
 export const CustomThemeProvider: React.FC<
-  React.PropsWithChildren<{ defaultTheme: keyof ThemeMap}>
+  React.PropsWithChildren<{ defaultTheme: keyof typeof themeMap}>
 > = (props) => {
   const themeAPI = useTheme(themeMap, props.defaultTheme);
 

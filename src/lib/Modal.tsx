@@ -50,7 +50,7 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = (props) => {
       bg="primary"
       sx={{
         position: "fixed",
-        zIndex:100,
+        zIndex: 100,
         flexDirection: "column",
         width: "100vw",
         height: "100vh",
@@ -58,9 +58,13 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = (props) => {
         alignItems: "center",
       }}
     >
-      <Card className='modal-content'bg="background"sx={{width: '85%', maxWidth:['600px']}}>
+      <Card
+        className="modal-content"
+        bg="background"
+        sx={{ width: "85%", maxWidth: ["600px"] }}
+      >
         <Flex sx={{ justifyContent: "flex-end" }}>
-          <Close onClick={props.modalAPI.toggleModal} />
+          <Close sx={{'&:hover': {cursor:'pointer'}}}onClick={props.modalAPI.toggleModal} />
         </Flex>
         <Flex sx={{ padding: "1rem" }}>{props.children}</Flex>
       </Card>

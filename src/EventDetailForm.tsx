@@ -12,7 +12,7 @@ import { RadioGroup } from "./lib/Form/RadioGroup";
 import { Button, Flex, Box, SxProps } from "theme-ui";
 
 export interface EventDetailFormProps {
-  event?: PaperChainEvent;
+  event: PaperChainEvent;
   formAttrs?: FormHTMLAttributes<HTMLFormElement>;
   submitLabel?: string;
   cancelLabel?: string;
@@ -54,11 +54,7 @@ export const EventDetailForm: React.FC<
         ],
       },
     },
-    event || {
-      name: null,
-      type: null,
-      timestamp: null,
-    }
+    event
   );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

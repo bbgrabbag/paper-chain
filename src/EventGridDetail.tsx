@@ -7,6 +7,7 @@ import { IconButton, Flex, Box, Card, Text } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faLessThan, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ConfigContext, TimeFormatOptions } from "./ConfigProvider";
+import Moment from 'moment';
 
 export interface EventGridDetailProps {
   event: PaperChainEvent;
@@ -58,11 +59,23 @@ export const EventGridDetail: React.FC<
     );
   };
 
+  const displayExpiredText = () => {
+    return (
+      <>
+        <Text sx={{ color: "secondary", fontSize: 4 }}>Lapsed</Text>
+        <Text sx={{ display: "inline", fontWeight: "bold", fontSize: 2 }}>
+          {props.event.name}
+        </Text>
+        <Text sx={{ display: "inline" }}> occurred on {Moment(props.event.timestamp).format('M/D/YYYY')}</Text>
+      </>
+    );
+  };
+
   return (
     <Card
       className="event-grid-detail"
       variant={
-        props.event.type === PaperChainEventType.Since ? "since" : "until"
+        props.event.type === PaperChainEventType.Since ? "since" : props.event.elapsed ? 'elapsed': "until"
       }
       m={2}
     >
@@ -72,7 +85,9 @@ export const EventGridDetail: React.FC<
             sx={{ width: "100%", paddingBottom: "3rem" }}
             to={`/event/${props.event.id}/view`}
           >
-            {displayEventTimestamp()}
+            {props.event.elapsed
+              ? displayExpiredText()
+              : displayEventTimestamp()}
           </NavLink>
         </Box>
         <Flex

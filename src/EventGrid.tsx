@@ -11,21 +11,24 @@ export const EventGrid: React.FC = () => {
   const renderEventList = (): React.ReactElement[] => {
     return eventsAPI.events
       .filter(eventsAPI.filterRule.cb)
+      .sort(eventsAPI.sortRule.cb)
       .map((e) => <EventGridDetail key={e.id} event={e} />);
   };
 
   return (
     <Flex
       className="event-grid"
-      sx={{ flexDirection: "column", width: '100%' }}
+      sx={{ flexDirection: "column", width: "100%" }}
     >
       <Box m={1}>
         <EventSearchForm />
       </Box>
       <Box m={1}>
-        <Flex sx={{ flexDirection: "column", paddingBottom:'4.5rem' }}>{renderEventList()}</Flex>
+        <Flex sx={{ flexDirection: "column", paddingBottom: "4rem" }}>
+          {renderEventList()}
+        </Flex>
       </Box>
-      <Box m={1} sx={{ position: "fixed", bottom: '32px' }}>
+      <Box m={1} sx={{ position: "fixed", bottom: "1rem" }}>
         <EventDetailAdd />
       </Box>
     </Flex>

@@ -1,11 +1,28 @@
 import React from "react";
-import { PaperChainEvent } from "./entities";
-import { generateUuid } from "./util";
+import { PaperChainEvent, PaperChainEventType } from "./entities";
+import { generateUuid, isElapsed } from "./util";
 import { PaperChainEventsStorageKey } from "./config";
+import Moment from "moment";
 
 export const EventsContext = React.createContext({} as UseEventsHookAPI);
 
-export type FilterRule = { cb: (e: PaperChainEvent, i?: number) => boolean };
+export enum FilterRuleName {
+  Default = "DEFAULT",
+  Search = "SEARCH",
+}
+
+export enum SortRuleName {
+  Default = "DEFAULT",
+}
+
+export type FilterRule = {
+  cb: (e: PaperChainEvent, i?: number) => boolean;
+  name: FilterRuleName;
+};
+export type SortRule = {
+  name: SortRuleName;
+  cb: (p1: PaperChainEvent, p2: PaperChainEvent, i?: number) => 1 | 0 | -1;
+};
 
 export interface UseEventsHookAPI {
   events: PaperChainEvent[];
@@ -15,20 +32,40 @@ export interface UseEventsHookAPI {
   getEventById: (id: string) => PaperChainEvent | null;
   edit: (id: string, event: PaperChainEvent) => void;
   filter: (rule: FilterRule) => void;
+  sort: (rule: SortRule) => void;
   filterRule: FilterRule;
+  sortRule: SortRule;
 }
 
-type UseEventsHook = () => UseEventsHookAPI;
+export type UseEventsHook = () => UseEventsHookAPI;
+
+export const defaultFilterRule: FilterRule = {
+  name: FilterRuleName.Default,
+  cb: () => true,
+};
+export const defaultSortRule: SortRule = {
+  name: SortRuleName.Default,
+  cb: (t1, t2) => {
+    const t1lastCreatedOrModified = t1.dateModified || t1.dateCreated;
+    const t2lastCreatedOrModified = t2.dateModified || t2.dateCreated;
+
+    return Moment(t1lastCreatedOrModified).isAfter(t2lastCreatedOrModified)
+      ? -1
+      : Moment(t1lastCreatedOrModified).isBefore(t2lastCreatedOrModified)
+      ? 1
+      : 0;
+  },
+};
+
 export const useEvents: UseEventsHook = () => {
   const [events, setEvents] = React.useState<PaperChainEvent[]>([]);
-  const [filterRule, setFilterRule] = React.useState<FilterRule>({
-    cb: () => true,
-  });
+  const [filterRule, setFilterRule] = React.useState(defaultFilterRule);
+  const [sortRule, setSortRule] = React.useState(defaultSortRule);
 
   const create = (event: Exclude<PaperChainEvent, "id" | "createdOn">) => {
     setEvents([
-      { id: generateUuid(), dateCreated: new Date(), ...event },
       ...events,
+      { id: generateUuid(), dateCreated: new Date(), ...event },
     ]);
   };
 
@@ -40,12 +77,25 @@ export const useEvents: UseEventsHook = () => {
     events.find((e) => e.id === id) || null;
 
   const edit = (id: string, event: PaperChainEvent) => {
-    setEvents(events.map((e) => (e.id === id ? { ...event, id } : e)));
+    setEvents(
+      events.map((e) =>
+        e.id === id
+          ? {
+              ...event,
+              id,
+              dateModified: new Date(),
+              elapsed:
+                event.type === PaperChainEventType.Until &&
+                isElapsed(e.timestamp as Date),
+            }
+          : e
+      )
+    );
   };
 
-  const filter = (rule: FilterRule): void => {
-    setFilterRule(rule);
-  };
+  const filter = (rule: FilterRule): void => setFilterRule(rule);
+
+  const sort = (rule: SortRule): void => setSortRule(rule);
 
   return {
     events,
@@ -53,9 +103,11 @@ export const useEvents: UseEventsHook = () => {
     create,
     remove,
     filter,
+    sort,
     getEventById,
     edit,
     filterRule,
+    sortRule,
   };
 };
 
@@ -70,14 +122,22 @@ export const useEventsEffects: UseEventsEffects = (eventsAPI) => {
         JSON.stringify(eventsAPI.events)
       );
     else {
-      const parsed = JSON.parse(storedEvents).map(
-        (p: Record<string, string>) => ({
-          ...p,
-          dateCreated: new Date(p.dateCreated),
-          timestamp: new Date(p.timestamp),
-        })
+      const parsed: PaperChainEvent[] = JSON.parse(storedEvents).map(
+        (p: Record<string, string>) => {
+          const timestamp = new Date(p.timestamp);
+
+          const elapsed =
+            p.type === PaperChainEventType.Until && isElapsed(timestamp);
+
+          return {
+            ...p,
+            elapsed,
+            dateCreated: new Date(p.dateCreated),
+            timestamp,
+          };
+        }
       );
-      eventsAPI.setEvents(parsed as PaperChainEvent[]);
+      eventsAPI.setEvents(parsed);
     }
   }, []);
 
@@ -97,6 +157,7 @@ export const EventsProvider: React.FC<
   const value = React.useMemo(() => eventsAPI, [
     eventsAPI.events,
     eventsAPI.filterRule,
+    eventsAPI.sortRule,
   ]);
 
   return (

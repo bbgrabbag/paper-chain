@@ -10,7 +10,7 @@ import App from "./App";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <CustomThemeProvider defaultTheme="polaris">
+      <CustomThemeProvider defaultTheme='polaris'>
         <EventsProvider>
           <ConfigProvider defaultTimeFormat={TimeFormatOptions.DayView}>
             <App />

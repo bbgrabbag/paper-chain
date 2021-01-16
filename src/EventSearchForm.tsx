@@ -1,20 +1,28 @@
 import React from "react";
-import { EventsContext, UseEventsHookAPI } from "./EventsProvider";
+import {
+  defaultFilterRule,
+  EventsContext,
+  FilterRuleName,
+  UseEventsHookAPI,
+} from "./EventsProvider";
 import { DefaultFormatterKeys, TextField, Form } from "./lib";
 import { useForm } from "./config";
 import { SearchEntity } from "./entities";
-import { Box, Button } from "theme-ui";
+import { Box, Close } from "theme-ui";
 
 export const useFilterOnSearch = (
   keyword: string | null,
   eventsAPI: UseEventsHookAPI
 ): void => {
   React.useEffect(() => {
-    eventsAPI.filter({
-      cb: (e) =>
-        keyword == null ||
-        !!e.name?.toLowerCase().includes(keyword.toLowerCase()),
-    });
+    eventsAPI.filter(
+      keyword == null
+        ? defaultFilterRule
+        : {
+            name: FilterRuleName.Search,
+            cb: (e) => !!e.name?.toLowerCase().includes(keyword.toLowerCase()),
+          }
+    );
   }, [keyword]);
 };
 
@@ -34,8 +42,10 @@ export const EventSearchForm: React.FC = () => {
 
   const handleClear = () => formControls.updateField("keyword", "");
 
+  const showClearButton = formControls.fieldControls.keyword.rawValue !== null;
+
   return (
-    <Form onSubmit={(e) => e.preventDefault()}>
+    <Form onSubmit={(e) => e.preventDefault()} sx={{ alignItems: "center" }}>
       <Box sx={{ flex: "1 1 auto" }}>
         <TextField
           label={""}
@@ -45,9 +55,14 @@ export const EventSearchForm: React.FC = () => {
         />
       </Box>
       <Box m={1}>
-        <Button type="button" onClick={handleClear}>
-          Clear
-        </Button>
+        {showClearButton && (
+          <Close
+            sx={{ color: "text" }}
+            variant="iconSm"
+            type="button"
+            onClick={handleClear}
+          ></Close>
+        )}
       </Box>
     </Form>
   );

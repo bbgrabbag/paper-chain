@@ -10,9 +10,11 @@ export type PaperChainEvent = NullableFields<
   {
     id?: string;
     dateCreated?: Date;
+    dateModified?: Date;
     type: PaperChainEventType;
     name: string;
     timestamp: Date;
+    elapsed?: boolean;
   },
   CustomFieldValues
 >;

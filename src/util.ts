@@ -27,7 +27,7 @@ export const formatTimestamp = (
   const d = new Date();
   const today = Moment(d.getTime() + d.getTimezoneOffset() / 60);
   const timestamp = Moment(date.getTime() + date.getTimezoneOffset() / 60);
-  if(type === PaperChainEventType.Until) timestamp.add(1000 * 60 * 60 * 24)
+  if (type === PaperChainEventType.Until) timestamp.add(1000 * 60 * 60 * 24);
 
   const metrics: TimestampFormats[] = [
     TimestampFormats.Years,
@@ -43,11 +43,10 @@ export const formatTimestamp = (
     days: 0,
   };
 
-  
   if (daysOnly)
     return {
       ...output,
-      days: Math.abs(today.diff(timestamp, 'days')),
+      days: Math.abs(today.diff(timestamp, "days")),
     };
 
   metrics.forEach((metric) => {
@@ -93,6 +92,10 @@ export const formatTimestampMetrics = (
   return {
     metrics: data.length ? data : ["< 1 day"],
     eventName: name,
-    type: type[0] + type.slice(1).toLowerCase(),
+    type: type.toLowerCase(),
   };
+};
+
+export const isElapsed = (timestamp: Date): boolean => {
+  return Moment(timestamp).isSameOrBefore(new Date());
 };

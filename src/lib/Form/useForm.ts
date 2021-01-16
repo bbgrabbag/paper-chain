@@ -103,8 +103,8 @@ export const defaultFormatterMap: FormatterMap<
           `Invalid field value '${v}. Must be Date instance or null'`
         );
       const timeZoneOffset = v.getTimezoneOffset() * 60 * 1000;
-      const iso = new Date(v.getTime() + timeZoneOffset).toISOString();
-      return iso.slice(0, iso.indexOf('T'));
+      const iso = new Date(v.getTime() - timeZoneOffset).toISOString();
+      return iso.slice(0, iso.indexOf("T"));
     },
     unmask: (s: string): Date | null => {
       if (s === "") return null;
@@ -146,13 +146,13 @@ export const useFormFactory = <
     const generateEntityFromFieldControlMap = (
       fieldControlMap: FieldControlMap<E>
     ): E => {
-      const output = {} as E;
+      const output = entity;
 
       for (const key in fieldConfigMap) {
         output[key] = fieldControlMap[key].rawValue;
       }
 
-      return output;
+      return { ...entity, ...output };
     };
 
     const generateInitialFieldControls = () => {
@@ -212,8 +212,12 @@ export const useFormFactory = <
         },
       } as FieldControlMap<E>;
 
-      for(const k in fieldControls){
-        output[k].errors = generateFieldErrors(fieldConfigMap[k].validators, output[k].rawValue, output)
+      for (const k in fieldControls) {
+        output[k].errors = generateFieldErrors(
+          fieldConfigMap[k].validators,
+          output[k].rawValue,
+          output
+        );
       }
 
       setFieldControls(output);

@@ -9,6 +9,7 @@ import { Heading, Text } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faLessThan } from "@fortawesome/free-solid-svg-icons";
 import { ConfigContext, TimeFormatOptions } from "./ConfigProvider";
+import Moment from "moment";
 
 export const EventDetailView: React.FC = () => {
   const route = useRouteMatch<CustomRouteParams>();
@@ -33,27 +34,38 @@ export const EventDetailView: React.FC = () => {
     historyRouter.push("/dashboard");
   };
 
-  const fragments = formatTimestampMetrics(
-    formatTimestamp(
-      event?.type as PaperChainEventType,
-      event?.timestamp as Date,
-      configAPI.timeFormat === TimeFormatOptions.DayView
-    ),
-    event?.type as PaperChainEventType,
-    event?.name as string
-  );
+  const renderHeading = () => {
+    if (event.elapsed)
+      return (
+          <Heading
+            as="h2"
+            sx={{ textAlign: "center", padding: "1rem", fontSize: 28 }}
+          >
+            <b>{event.name}</b> occurred on <Text sx={{padding: '1rem'}}>{Moment(event.timestamp).format('M/D/YYYY')}</Text>
+          </Heading>
+      );
 
-  return (
-    <Flex sx={{ justifyContent: "center" }}>
-      <Box sx={{paddingBottom:'3rem'}}>
+    const fragments = formatTimestampMetrics(
+      formatTimestamp(
+        event?.type as PaperChainEventType,
+        event?.timestamp as Date,
+        configAPI.timeFormat === TimeFormatOptions.DayView
+      ),
+      event?.type as PaperChainEventType,
+      event?.name as string
+    );
+    return (
+      <>
         <Heading
           as="h1"
           sx={{ textAlign: "center", padding: "1rem", fontSize: 38 }}
         >
           {fragments.metrics.map((s) => (
             <span style={{ display: "block" }} key={s}>
-              {s.includes('<') &&  <FontAwesomeIcon size='xs'icon={faLessThan}></FontAwesomeIcon>}
-              {s.replace(/</g,'')}
+              {s.includes("<") && (
+                <FontAwesomeIcon size="xs" icon={faLessThan}></FontAwesomeIcon>
+              )}
+              {s.replace(/</g, "")}
             </span>
           ))}
         </Heading>
@@ -69,13 +81,19 @@ export const EventDetailView: React.FC = () => {
         >
           {fragments.eventName}
         </Heading>
-      </Box>
+      </>
+    );
+  };
+
+  return (
+    <Flex sx={{ justifyContent: "center" }}>
+      <Box sx={{ paddingBottom: "3rem" }}>{renderHeading()}</Box>
       <Flex
         sx={{
           justifyContent: "space-between",
           position: "fixed",
           width: "100%",
-          bottom: "0",
+          bottom: ".5rem",
           backgroundColor: "transparent",
         }}
       >

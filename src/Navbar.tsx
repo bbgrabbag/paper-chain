@@ -1,33 +1,32 @@
 import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Flex, Box, IconButton } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeft,
-} from "@fortawesome/free-solid-svg-icons";
-import { TimeFormatSetting } from "./TimeFormatSetting";
+import { faSortAlphaUp } from "@fortawesome/free-solid-svg-icons";
+import { TimeFormatActionButton } from "./TimeFormatActionButton";
+import { NavBackActionButton } from "./NavBackActionButton";
+import { FilterActionButton } from "./FilterActionButton";
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
-  const routeHistory = useHistory();
 
-  const hide = location.pathname === "/dashboard";
+  const showOnRoutes = (pathnames: RegExp[]): boolean => {
+    return pathnames.some((reg) => reg.test(location.pathname));
+  };
 
   return (
     <Flex className="navbar">
-      {hide ? null : (
-        <Box sx={{ flex: 1 }}>
-          <IconButton
-            variant="icon"
-            sx={{ color: "primary" }}
-            onClick={routeHistory.goBack}
-          >
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </IconButton>
-        </Box>
-      )}
+      <Box sx={{ flex: 1 }}>
+        {!showOnRoutes([/dashboard/]) && <NavBackActionButton />}
+      </Box>
       <Flex sx={{ flex: "auto", justifyContent: "flex-end" }}>
-        <TimeFormatSetting />
+        {showOnRoutes([/unreleased/]) && (
+          <IconButton variant="iconSm">
+            <FontAwesomeIcon icon={faSortAlphaUp} />
+          </IconButton>
+        )}
+        {showOnRoutes([/unreleased/]) && <FilterActionButton />}
+        {showOnRoutes([/dashboard/, /view/]) && <TimeFormatActionButton />}
       </Flex>
     </Flex>
   );

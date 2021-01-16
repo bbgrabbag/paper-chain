@@ -6,6 +6,7 @@ import { EventsContext } from "./EventsProvider";
 import { IconButton } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { PaperChainEventType } from "./entities";
 
 export const EventDetailAdd: React.FC = () => {
   const modalAPI = useModal(false);
@@ -35,7 +36,12 @@ export const EventDetailAdd: React.FC = () => {
           onCancel={handleCancel}
           onSubmit={handleSubmit}
           submitLabel={"Create"}
-          event={{ name: null, type: null, timestamp: new Date() }}
+          event={{
+            name: null,
+            type: PaperChainEventType.Since,
+            timestamp: new Date(),
+            expired: false,
+          }}
         />
       </Modal>
     </>
