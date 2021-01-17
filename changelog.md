@@ -12,3 +12,14 @@
 ##### Bugfixes
 - Default date on add form is correct now.
 - Formatting for time view is accurate 
+
+## Version 1.5.1
+### 1-17-2021
+
+#### Features
+- Custom favicon/thumbnail added
+- Consistent button styling/sizing 
+- Minor positional/accent adjustments
+
+##### BugFixes
+N/A
