@@ -8,7 +8,6 @@ export const NavBackActionButton: React.FC = () => {
   const routeHistory = useHistory();
   return (
     <IconButton
-      variant="icon"
       sx={{ color: "primary" }}
       onClick={routeHistory.goBack}
     >

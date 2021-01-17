@@ -40,8 +40,8 @@ const buildVariants = (baseTheme: Theme): Theme => {
     color: "accent",
     backgroundColor: "background",
     borderRadius: "50%",
-    width: "3.5rem",
-    height: "3.5rem",
+    width: "2.8rem",
+    height: "2.8rem",
     fontSize: "1.2rem",
   };
 
@@ -88,6 +88,13 @@ const buildVariants = (baseTheme: Theme): Theme => {
         height: "2.5rem",
         fontSize: ".9rem",
       },
+      iconLg:{
+        ...baseIconButtons,
+        width:'3.5rem',
+        height: '3.5rem',
+        fontSize: '1.4rem'
+        
+      }
     },
   };
 };
@@ -102,9 +109,6 @@ const buildStyles = (base: Theme["styles"]): Theme["styles"] => {
     a: {
       ...base?.a,
       textDecoration: "none",
-      '&:hover':{
-        color:'highlight'
-      }
     },
   };
 };

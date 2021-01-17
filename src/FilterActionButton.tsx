@@ -9,7 +9,7 @@ export const FilterActionButton: React.FC = () => {
   const modalAPI = useModal();
   return (
     <>
-      <IconButton variant="iconSm" onClick={modalAPI.toggleModal}>
+      <IconButton  onClick={modalAPI.toggleModal}>
         <FontAwesomeIcon icon={faFilter} />
       </IconButton>
       <Modal rootSelector="#modal-root" modalAPI={modalAPI}>

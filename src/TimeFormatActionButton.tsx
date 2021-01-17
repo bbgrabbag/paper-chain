@@ -9,11 +9,11 @@ export const TimeFormatActionButton: React.FC = () => {
   const configAPI = React.useContext(ConfigContext);
   
   return configAPI.timeFormat === TimeFormatOptions.DayView ? (
-    <IconButton variant="iconSm" onClick={configAPI.toggleTimeFormat}>
+    <IconButton onClick={configAPI.toggleTimeFormat}>
       <FontAwesomeIcon icon={faCalendarDay} />
     </IconButton>
   ) : (
-    <IconButton variant="iconSm" onClick={configAPI.toggleTimeFormat}>
+    <IconButton onClick={configAPI.toggleTimeFormat}>
       <FontAwesomeIcon icon={faClock} />
     </IconButton>
   );

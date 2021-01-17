@@ -21,12 +21,22 @@ export const Navbar: React.FC = () => {
       </Box>
       <Flex sx={{ flex: "auto", justifyContent: "flex-end" }}>
         {showOnRoutes([/unreleased/]) && (
-          <IconButton variant="iconSm">
-            <FontAwesomeIcon icon={faSortAlphaUp} />
-          </IconButton>
+          <Box sx={{margin: '3px'}}>
+            <IconButton>
+              <FontAwesomeIcon icon={faSortAlphaUp} />
+            </IconButton>
+          </Box>
         )}
-        {showOnRoutes([/unreleased/]) && <FilterActionButton />}
-        {showOnRoutes([/dashboard/, /view/]) && <TimeFormatActionButton />}
+        {showOnRoutes([/unreleased/]) && (
+          <Box sx={{margin: '3px'}}>
+            <FilterActionButton />
+          </Box>
+        )}
+        {showOnRoutes([/dashboard/, /view/]) && (
+          <Box sx={{margin: '3px'}}>
+            <TimeFormatActionButton />
+          </Box>
+        )}
       </Flex>
     </Flex>
   );

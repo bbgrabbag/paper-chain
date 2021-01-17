@@ -28,7 +28,7 @@ export const EventGrid: React.FC = () => {
           {renderEventList()}
         </Flex>
       </Box>
-      <Box m={1} sx={{ position: "fixed", bottom: "1rem" }}>
+      <Box m={1} sx={{ position: "fixed", bottom: "1.5rem", left: "1.5rem" }}>
         <EventDetailAdd />
       </Box>
     </Flex>

@@ -22,6 +22,7 @@ export const EventDetailAdd: React.FC = () => {
       {!modalAPI.open && (
         <IconButton
           bg="primary"
+          variant="iconLg"
           sx={{
             color: "background",
             boxShadow: "3px 3px 9px -4px rgba(0, 0, 0, 3.125)",
