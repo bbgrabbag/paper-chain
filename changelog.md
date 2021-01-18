@@ -23,3 +23,16 @@
 
 ##### BugFixes
 N/A
+
+## Version 1.6.0
+### 1-17-2021
+
+- Filter feature added
+- Cookie crumbs on search/filter
+- Local storage of filter settings
+- Added explicit date to detail and grid detail view
+- Minor  layout/ stlying tweaks
+- Focus name field on form initiation
+
+##### Bugfixes
+- Events are correctly cached after filtering
