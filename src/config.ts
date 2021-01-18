@@ -1,4 +1,4 @@
-import { PaperChainEventType } from "./entities";
+import { FilterByOccurence, PaperChainEventType } from "./entities";
 import {
   useFormFactory,
   defaultFormatterMap,
@@ -14,8 +14,14 @@ export type CustomFieldValues = DefaultFieldValues | PaperChainEventType;
 export enum DateRange {
   PaperChainEventType = "PAPER_CHAIN_EVENT_TYPE",
 }
-export type CustomValidatorKeys = DefaultValidatorKeys | DateRange;
-export const CustomValidatorKeys = {...DefaultValidatorKeys, ...DateRange};
+export enum FilterByDate {
+  Occurrence = "OCCURRENCE",
+}
+export type CustomValidatorKeys =
+  | DefaultValidatorKeys
+  | DateRange
+  | FilterByDate;
+export const CustomValidatorKeys = { ...DefaultValidatorKeys, ...DateRange, ...FilterByDate };
 
 const formatterMap: FormatterMap<DefaultFormatterKeys, CustomFieldValues> = {
   ...defaultFormatterMap,
@@ -35,6 +41,18 @@ const validatorMap: ValidatorMap<CustomValidatorKeys, CustomFieldValues> = {
     }
     return true;
   },
+  [FilterByDate.Occurrence]: (d, formControls) => {
+    if (d == null) {
+      if ("byOccurrence" in formControls && "filterDate" in formControls) {
+        if (formControls.byOccurrence.rawValue === FilterByOccurence.Whenever)
+          return true;
+        return "This field is required";
+      } else
+        throw `Invalid form control configuration. Missing 'byOccurence' and 'filterDate' fields`;
+    }
+    if (!(d instanceof Date)) return `Invalid field value: ${d}. Must be Date`;
+    return true;
+  },
 };
 
 export const useForm = useFormFactory<
@@ -47,5 +65,5 @@ export const useForm = useFormFactory<
 });
 
 export const PaperChainEventsStorageKey = "PAPER_CHAIN_EVENTS";
-export const PaperChainTimeFormatKey = 'PAPER_CHAIN_TIME_FORMAT';
-
+export const PaperChainTimeFormatKey = "PAPER_CHAIN_TIME_FORMAT";
+export const PaperChainFilterStorageKey = 'PAPER_CHAIN_FILTERS';

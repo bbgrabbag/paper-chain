@@ -3,32 +3,42 @@ import { EventGridDetail } from "./EventGridDetail";
 import { EventDetailAdd } from "./EventDetailAdd";
 import { EventsContext } from "./EventsProvider";
 import { EventSearchForm } from "./EventSearchForm";
-import { Flex, Box } from "theme-ui";
+import { Flex, Box, Text } from "theme-ui";
 
 export const EventGrid: React.FC = () => {
   const eventsAPI = React.useContext(EventsContext);
 
-  const renderEventList = (): React.ReactElement[] => {
-    return eventsAPI.events
-      .filter(eventsAPI.filterRule.cb)
-      .sort(eventsAPI.sortRule.cb)
-      .map((e) => <EventGridDetail key={e.id} event={e} />);
+  const renderEventList = (): React.ReactElement[] | React.ReactElement => {
+    const eventList = eventsAPI.events.map((e) => (
+      <EventGridDetail key={e.id} event={e} />
+    ));
+
+    return eventsAPI.meta.count ? (
+      eventList
+    ) : (
+      <Flex sx={{flexDirection:'column', justifyContent:'center', minHeight:'300px'}}>
+        <Text sx={{ textAlign: "center" }}>
+          You do not have any paper chains.
+        </Text>
+        <Text sx={{ textAlign: "center" }}>Create a new chain below!</Text>
+      </Flex>
+    );
   };
 
   return (
     <Flex
-      className="event-grid"
+      id="event-grid"
       sx={{ flexDirection: "column", width: "100%" }}
     >
-      <Box m={1}>
+      <Box>
         <EventSearchForm />
       </Box>
-      <Box m={1}>
-        <Flex sx={{ flexDirection: "column", paddingBottom: "4rem" }}>
+      <Box>
+        <Flex sx={{ flexDirection: "column", paddingBottom: "4.5rem" }}>
           {renderEventList()}
         </Flex>
       </Box>
-      <Box m={1} sx={{ position: "fixed", bottom: "1.5rem", left: "1.5rem" }}>
+      <Box sx={{ position: "fixed", bottom: "1.5rem", left: "1rem" }}>
         <EventDetailAdd />
       </Box>
     </Flex>

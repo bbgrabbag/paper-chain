@@ -13,8 +13,8 @@ export const RadioGroup: React.FC<
 > = ({ errors, isPristine, children, direction = "row", ...attrs }) => {
   return (
     <Flex {...attrs}>
-      <Flex sx={{flexDirection: 'column'}}>
-        <Flex m={1} sx={{ flexDirection: direction }}>
+      <Flex sx={{flexDirection: 'column', width:'100%'}}>
+        <Flex m={1} sx={{ flexDirection: direction, width: '100%' }}>
           {React.Children.map(children, (child, i) => (
             <Box m={1} key={i}>
               {child}

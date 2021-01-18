@@ -7,10 +7,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 export const NavBackActionButton: React.FC = () => {
   const routeHistory = useHistory();
   return (
-    <IconButton
-      sx={{ color: "primary" }}
-      onClick={routeHistory.goBack}
-    >
+    <IconButton sx={{ color: "primary" }} onClick={() => routeHistory.goBack()}>
       <FontAwesomeIcon icon={faArrowLeft} />
     </IconButton>
   );

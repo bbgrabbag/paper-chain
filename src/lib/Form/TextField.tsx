@@ -9,7 +9,19 @@ interface TextFieldProps<E, F extends keyof E> {
   label: string;
   inputAttrs?: InputHTMLAttributes<HTMLInputElement>;
   labelAttrs?: LabelHTMLAttributes<HTMLLabelElement>;
+  onRefAttached?: (input: HTMLInputElement) => void;
 }
+
+export const useInputRef = (
+  handler: (ref: HTMLInputElement) => void,
+  ref: React.RefObject<HTMLInputElement>
+): void => {
+  React.useEffect(() => {
+    if (ref.current) {
+      handler(ref.current);
+    }
+  }, [ref]);
+};
 
 export const TextField = <
   V extends DefaultFieldValues,
@@ -24,6 +36,10 @@ export const TextField = <
     formControls.updateField(fieldName, target.value);
   };
 
+  const inputRef = React.createRef<HTMLInputElement>();
+
+  if (props.onRefAttached) useInputRef(props.onRefAttached, inputRef)
+
   return (
     <Box m={1}>
       <Label {...labelAttrs} htmlFor={inputAttrs?.id}>
@@ -31,9 +47,11 @@ export const TextField = <
       </Label>
       <Input
         {...inputAttrs}
+        ref={inputRef}
         value={formControls.fieldControls[fieldName].displayValue}
         type="text"
         onChange={inputAttrs?.onChange || handleChange}
+        bg={'background'}
       />
       <FormErrors
         isPristine={formControls.isPristine}

@@ -27,6 +27,7 @@ export interface EventDetailFormProps {
 export const EventDetailForm: React.FC<
   React.PropsWithChildren<EventDetailFormProps>
 > = (props) => {
+
   const {
     event,
     onSubmit,
@@ -61,6 +62,8 @@ export const EventDetailForm: React.FC<
     onSubmit(e, formControls.entity);
   };
 
+  const focusEventNameInput = (input: HTMLInputElement) => input.focus();
+
   return (
     <Form
       {...formAttrs}
@@ -89,6 +92,7 @@ export const EventDetailForm: React.FC<
         </RadioGroup>
       </Flex>
       <TextField
+        onRefAttached={focusEventNameInput}
         fieldName={"name"}
         label={""}
         formControls={formControls}
@@ -101,7 +105,7 @@ export const EventDetailForm: React.FC<
           formControls={formControls}
         />
       </Box>
-      <Flex sx={{ flexDirection: "column", marginTop:'1rem' }}>
+      <Flex sx={{ flexDirection: "column", marginTop: "1rem" }}>
         <Box m={1}>
           <Button
             sx={{ width: "100%" }}

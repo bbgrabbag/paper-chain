@@ -37,12 +37,15 @@ export const EventDetailView: React.FC = () => {
   const renderHeading = () => {
     if (event.elapsed)
       return (
-          <Heading
-            as="h2"
-            sx={{ textAlign: "center", padding: "1rem", fontSize: 28 }}
-          >
-            <b>{event.name}</b> occurred on <Text sx={{padding: '1rem'}}>{Moment(event.timestamp).format('M/D/YYYY')}</Text>
-          </Heading>
+        <Heading
+          as="h2"
+          sx={{ textAlign: "center", padding: "1rem", fontSize: 28 }}
+        >
+          <b>{event.name}</b> occurred on{" "}
+          <Text sx={{ padding: "1rem" }}>
+            {Moment(event.timestamp).format("M/D/YYYY")}
+          </Text>
+        </Heading>
       );
 
     const fragments = formatTimestampMetrics(
@@ -54,6 +57,7 @@ export const EventDetailView: React.FC = () => {
       event?.type as PaperChainEventType,
       event?.name as string
     );
+
     return (
       <>
         <Heading
@@ -80,6 +84,17 @@ export const EventDetailView: React.FC = () => {
           sx={{ textAlign: "center", padding: "1rem", fontSize: 28 }}
         >
           {fragments.eventName}
+        </Heading>
+        <Heading
+          as="h2"
+          sx={{
+            textAlign: "center",
+            padding: "3rem",
+            paddingTop: "6rem",
+            fontSize: 18,
+          }}
+        >
+          Occurs on {Moment(event.timestamp).format("M/D/YYYY")}
         </Heading>
       </>
     );

@@ -99,3 +99,5 @@ export const formatTimestampMetrics = (
 export const isElapsed = (timestamp: Date): boolean => {
   return Moment(timestamp).isSameOrBefore(new Date());
 };
+
+export const capitalize = (s = ''): string => s[0].toUpperCase() + s.slice(1).toLowerCase();

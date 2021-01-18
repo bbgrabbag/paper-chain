@@ -68,6 +68,7 @@ export type FormHookAPI<E> = {
   fieldControls: FieldControlMap<E>;
   setFieldControls: React.Dispatch<React.SetStateAction<FieldControlMap<E>>>;
   updateField: (key: keyof E, value: string) => void;
+  reset: (e?: E) => void;
   entity: E;
 };
 
@@ -155,12 +156,12 @@ export const useFormFactory = <
       return { ...entity, ...output };
     };
 
-    const generateInitialFieldControls = () => {
+    const generateInitialFieldControls = (fromEntity = entity) => {
       const output = {} as FieldControlMap<E>;
 
       for (const k in fieldConfigMap) {
         const fieldConfig = fieldConfigMap[k];
-        const rawValue = entity[k];
+        const rawValue = fromEntity[k];
         const displayValue = generateDisplayValue(fieldConfig.type, rawValue);
 
         output[k] = {
@@ -173,7 +174,7 @@ export const useFormFactory = <
 
       for (const k in fieldConfigMap) {
         const fieldConfig = fieldConfigMap[k];
-        const rawValue = entity[k];
+        const rawValue = fromEntity[k];
         output[k].errors = generateFieldErrors(
           fieldConfig.validators,
           rawValue,
@@ -230,12 +231,17 @@ export const useFormFactory = <
       return true;
     };
 
+    const reset = (values?: E) => {
+      setFieldControls(generateInitialFieldControls(values))
+    }
+
     return {
       isPristine: getFormPristineStatus(),
       isValid: validateForm(),
       fieldControls,
       setFieldControls,
       updateField,
+      reset,
       entity: generateEntityFromFieldControlMap(fieldControls),
     };
   };

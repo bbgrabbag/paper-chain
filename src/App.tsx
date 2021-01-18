@@ -8,13 +8,17 @@ import { Navbar } from "./Navbar";
 
 const App: React.FunctionComponent = (): React.ReactElement => {
   return (
-    <Flex className="app" sx={{ flexDirection: "column"}}>
+    <Flex
+      id="app"
+      sx={{
+        flexDirection: "column",
+        padding:'1rem',
+      }}
+    >
       <Box>
         <Navbar />
       </Box>
-      <Box
-        className="app-view"
-      >
+      <Box id="app-view">
         <Switch>
           <Route exact path="/">
             <Redirect to="/dashboard" />

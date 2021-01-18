@@ -75,6 +75,14 @@ const buildVariants = (baseTheme: Theme): Theme => {
         "&:hover": { cursor: "pointer" },
       },
     },
+    badges: {
+      badgeButton: {
+        paddingRight: '5px',
+        paddingLeft: '5px',
+        borderRadius: "10px",
+        "&:hover": { cursor: "pointer", backgroundColor: "accent" },
+      },
+    },
     buttons: {
       primary: {
         ...baseButtons,
@@ -88,13 +96,12 @@ const buildVariants = (baseTheme: Theme): Theme => {
         height: "2.5rem",
         fontSize: ".9rem",
       },
-      iconLg:{
+      iconLg: {
         ...baseIconButtons,
-        width:'3.5rem',
-        height: '3.5rem',
-        fontSize: '1.4rem'
-        
-      }
+        width: "3.8rem",
+        height: "3.8rem",
+        fontSize: "1.4rem",
+      },
     },
   };
 };
@@ -122,8 +129,8 @@ const buildColors = (baseColors: Theme["colors"]): Theme["colors"] => {
     secondaryFade: colorAPI.hexTransform(colorAPI.lighten(0.9))(
       baseColors?.secondary
     ) /*"#AACFE8"*/,
-    error: '#ff0000',
-    errorFade: colorAPI.hexTransform(colorAPI.lighten(.9))('#ff0000'),
+    error: "#ff0000",
+    errorFade: colorAPI.hexTransform(colorAPI.lighten(0.9))("#ff0000"),
   } as Theme["colors"];
 };
 

@@ -15,7 +15,7 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <Flex className="navbar">
+    <Flex id="navbar">
       <Box sx={{ flex: 1 }}>
         {!showOnRoutes([/dashboard/]) && <NavBackActionButton />}
       </Box>
@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
             </IconButton>
           </Box>
         )}
-        {showOnRoutes([/unreleased/]) && (
+        {showOnRoutes([/dashboard/]) && (
           <Box sx={{margin: '3px'}}>
             <FilterActionButton />
           </Box>
