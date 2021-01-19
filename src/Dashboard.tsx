@@ -4,7 +4,7 @@ import { EventGrid } from "./EventGrid";
 
 export const Dashboard: React.FC = () => {
   return (
-    <Flex id="dashboard">
+    <Flex id="dashboard-view">
       <EventGrid />
     </Flex>
   );

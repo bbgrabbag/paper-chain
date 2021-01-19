@@ -4,17 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton } from "theme-ui";
 import { Modal, useModal } from "./lib";
 import { FilterForm } from "./FilterForm";
-import {
-  FilterByCategory,
-  FilterByOccurence,
-  FilterEntity,
-} from "./entities";
+import { FilterByCategory, FilterByOccurence, FilterEntity } from "./entities";
+import { EventsContext } from "./EventsProvider";
 import {
   CategoryFilterRule,
-  EventsContext,
   FilterRuleName,
   OccurrenceFilterRule,
-} from "./EventsProvider";
+} from "./config";
 
 export const FilterActionButton: React.FC = () => {
   const modalAPI = useModal();
@@ -41,7 +37,10 @@ export const FilterActionButton: React.FC = () => {
 
   return (
     <>
-      <IconButton onClick={modalAPI.toggleModal}>
+      <IconButton
+        onClick={modalAPI.toggleModal}
+        disabled={!eventsAPI.meta.count}
+      >
         <FontAwesomeIcon icon={faFilter} />
       </IconButton>
       <Modal rootSelector="#modal-root" modalAPI={modalAPI}>

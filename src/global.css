@@ -5,3 +5,7 @@
 #modal-root {
     position: relative;
 }
+
+::-webkit-scrollbar {
+    display: none;
+}

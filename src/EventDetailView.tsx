@@ -4,7 +4,11 @@ import { Box, Flex, IconButton } from "theme-ui";
 import { CustomRouteParams, PaperChainEventType } from "./entities";
 import { EventsContext } from "./EventsProvider";
 import { ButtonLink, Loading } from "./lib";
-import { formatTimestamp, formatTimestampMetrics } from "./util";
+import {
+  formatTimestamp,
+  formatTimestampMetrics,
+  useScrollIntoView,
+} from "./util";
 import { Heading, Text } from "theme-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faLessThan } from "@fortawesome/free-solid-svg-icons";
@@ -17,6 +21,10 @@ export const EventDetailView: React.FC = () => {
   const eventAPI = React.useContext(EventsContext);
   const event = eventAPI.getEventById(route.params.id);
   const configAPI = useContext(ConfigContext);
+
+  const ref = React.createRef<HTMLDivElement>();
+
+  useScrollIntoView();
 
   if (event == null)
     return (
@@ -85,23 +93,25 @@ export const EventDetailView: React.FC = () => {
         >
           {fragments.eventName}
         </Heading>
-        <Heading
-          as="h2"
+        <Text
           sx={{
             textAlign: "center",
             padding: "3rem",
             paddingTop: "6rem",
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
-          Occurs on {Moment(event.timestamp).format("M/D/YYYY")}
-        </Heading>
+          {event.type === PaperChainEventType.Since
+            ? "Occurred on "
+            : "Occurs on "}
+          {Moment(event.timestamp).format("M/D/YYYY")}
+        </Text>
       </>
     );
   };
 
   return (
-    <Flex sx={{ justifyContent: "center" }}>
+    <Flex id="event-detail-view" sx={{ justifyContent: "center" }} ref={ref}>
       <Box sx={{ paddingBottom: "3rem" }}>{renderHeading()}</Box>
       <Flex
         sx={{

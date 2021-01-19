@@ -74,11 +74,14 @@ const buildVariants = (baseTheme: Theme): Theme => {
       radio: {
         "&:hover": { cursor: "pointer" },
       },
+      input: {
+        "&:disabled": { backgroundColor: "muted", cursor: 'not-allowed' },
+      },
     },
     badges: {
       badgeButton: {
-        paddingRight: '5px',
-        paddingLeft: '5px',
+        paddingRight: "5px",
+        paddingLeft: "5px",
         borderRadius: "10px",
         "&:hover": { cursor: "pointer", backgroundColor: "accent" },
       },
