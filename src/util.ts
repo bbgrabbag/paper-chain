@@ -1,3 +1,4 @@
+import React from 'react';
 import { PaperChainEventType } from "./entities";
 import Moment from "moment";
 
@@ -100,4 +101,11 @@ export const isElapsed = (timestamp: Date): boolean => {
   return Moment(timestamp).isSameOrBefore(new Date());
 };
 
-export const capitalize = (s = ''): string => s[0].toUpperCase() + s.slice(1).toLowerCase();
+export const capitalize = (s = ""): string =>
+  s[0].toUpperCase() + s.slice(1).toLowerCase();
+
+export const useScrollIntoView = <D>(deps: D[] = []): void => {
+  React.useEffect(() => {
+    document.body.scrollIntoView();
+  }, [...deps]);
+};

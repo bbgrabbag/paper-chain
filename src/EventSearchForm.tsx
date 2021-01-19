@@ -7,7 +7,7 @@ import {
   SortRuleName,
   useForm,
 } from "./config";
-import { FilterByCategory, FilterByOccurence, SearchEntity } from "./entities";
+import { SearchEntity } from "./entities";
 import { Badge, Box, Close, Flex, Text } from "theme-ui";
 import { capitalize } from "./util";
 import Moment from "moment";
@@ -57,34 +57,26 @@ export const EventSearchForm: React.FC = () => {
       if (name === FilterRuleName.Search) handleClear();
     };
 
-    const badges = eventsAPI.filterRules
-      .filter((r) => {
-        if (r.name === FilterRuleName.Occurrence)
-          return r.occurrence !== FilterByOccurence.Whenever;
-        if (r.name === FilterRuleName.Category)
-          return r.category !== FilterByCategory.All;
-        return true;
-      })
-      .map((r, i) => {
-        let text = "";
-        if ("keyword" in r) text = `Keyword: ${r.keyword}`;
+    const badges = eventsAPI.filterRules.map((r, i) => {
+      let text = "";
+      if ("keyword" in r) text = `Keyword: ${r.keyword}`;
 
-        if ("occurrence" in r)
-          text = ` Occurs ${r.occurrence.toLowerCase()} ${Moment(r.date).format(
-            "M/D/YY"
-          )}`;
-        if ("category" in r) text = `Category: ${capitalize(r.category)}`;
-        return (
-          <Badge
-            variant="badgeButton"
-            sx={{ margin: "3px" }}
-            key={i}
-            onClick={handleBadgeClick(r.name)}
-          >
-            <FontAwesomeIcon icon={faTimesCircle} /> {text}
-          </Badge>
-        );
-      });
+      if ("occurrence" in r)
+        text = ` Occurs ${r.occurrence.toLowerCase()} ${Moment(r.date).format(
+          "M/D/YY"
+        )}`;
+      if ("category" in r) text = `Category: ${capitalize(r.category)}`;
+      return (
+        <Badge
+          variant="badgeButton"
+          sx={{ margin: "3px" }}
+          key={i}
+          onClick={handleBadgeClick(r.name)}
+        >
+          <FontAwesomeIcon icon={faTimesCircle} /> {text}
+        </Badge>
+      );
+    });
 
     const filterSearchInfoText = eventsAPI.filterRules.length ? (
       <Text as="span">

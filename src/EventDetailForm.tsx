@@ -27,7 +27,6 @@ export interface EventDetailFormProps {
 export const EventDetailForm: React.FC<
   React.PropsWithChildren<EventDetailFormProps>
 > = (props) => {
-
   const {
     event,
     onSubmit,

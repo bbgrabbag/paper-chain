@@ -198,7 +198,7 @@ export const defaultSortRule: SortRule = {
 
 export const sortRuleCallbacks: SortRuleCallbacks = {
   [SortRuleName.Default]: (e1: PaperChainEvent, e2: PaperChainEvent) => {
-    const t1lastCreatedOrModified = e1.dateModified || e2.dateCreated;
+    const t1lastCreatedOrModified = e1.dateModified || e1.dateCreated;
     const t2lastCreatedOrModified = e2.dateModified || e2.dateCreated;
 
     return Moment(t1lastCreatedOrModified).isAfter(t2lastCreatedOrModified)

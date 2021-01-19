@@ -42,57 +42,56 @@ export const SortForm: React.FC<SortFormProps> = (props) => {
       onSubmit={handleSubmit}
       sx={{ flexDirection: "column", width: "100%", position: "relative" }}
     >
-      <Heading as="h5">Sort By:</Heading>
-      <Flex>
-        <RadioGroup
-          direction="column"
-          isPristine={formControls.fieldControls.sortRule.isPristine}
-          errors={formControls.fieldControls.sortRule.errors}
-        >
-          <Radio
-            label="Updated recently"
-            fieldName="sortRule"
-            radioValue={SortRuleName.Default}
-            radioGroup="sort-rule"
-            formControls={formControls}
-          />
-          <Radio
-            label="Updated later"
-            fieldName="sortRule"
-            radioValue={SortRuleName.OldToNew}
-            radioGroup="sort-rule"
-            formControls={formControls}
-          />
-          <Radio
-            label="Future occurrence"
-            fieldName="sortRule"
-            radioValue={SortRuleName.FutureToPast}
-            radioGroup="sort-rule"
-            formControls={formControls}
-          />
-          <Radio
-            label="Past occurrence"
-            fieldName="sortRule"
-            radioValue={SortRuleName.PastToFuture}
-            radioGroup="sort-rule"
-            formControls={formControls}
-          />
-          <Radio
-            label="A to Z"
-            fieldName="sortRule"
-            radioValue={SortRuleName.AtoZ}
-            radioGroup="sort-rule"
-            formControls={formControls}
-          />
-          <Radio
-            label="Z to A"
-            fieldName="sortRule"
-            radioValue={SortRuleName.ZtoA}
-            radioGroup="sort-rule"
-            formControls={formControls}
-          />
-        </RadioGroup>
-      </Flex>
+      <Heading as="h5">Sort By</Heading>
+      <RadioGroup
+        m={2}
+        direction="column"
+        isPristine={formControls.fieldControls.sortRule.isPristine}
+        errors={formControls.fieldControls.sortRule.errors}
+      >
+        <Radio
+          label="Updated recently"
+          fieldName="sortRule"
+          radioValue={SortRuleName.Default}
+          radioGroup="sort-rule"
+          formControls={formControls}
+        />
+        <Radio
+          label="Updated later"
+          fieldName="sortRule"
+          radioValue={SortRuleName.OldToNew}
+          radioGroup="sort-rule"
+          formControls={formControls}
+        />
+        <Radio
+          label="Future occurrence"
+          fieldName="sortRule"
+          radioValue={SortRuleName.FutureToPast}
+          radioGroup="sort-rule"
+          formControls={formControls}
+        />
+        <Radio
+          label="Past occurrence"
+          fieldName="sortRule"
+          radioValue={SortRuleName.PastToFuture}
+          radioGroup="sort-rule"
+          formControls={formControls}
+        />
+        <Radio
+          label="A to Z"
+          fieldName="sortRule"
+          radioValue={SortRuleName.AtoZ}
+          radioGroup="sort-rule"
+          formControls={formControls}
+        />
+        <Radio
+          label="Z to A"
+          fieldName="sortRule"
+          radioValue={SortRuleName.ZtoA}
+          radioGroup="sort-rule"
+          formControls={formControls}
+        />
+      </RadioGroup>
       <Flex sx={{ flexDirection: "column" }}>
         <Box m={1} sx={{ flex: 1 }}>
           <Button

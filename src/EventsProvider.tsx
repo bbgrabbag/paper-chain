@@ -146,7 +146,7 @@ export const useEvents: UseEventsHook = (): UseEventsHookAPI => {
   };
 };
 
-export type UseEventsEffects = (eventsHookAPI: UseEventsHookAPI) => void;
+export type UseEventsEffects = (eventsHookAPI: UseEventsHookAPI) => UseEventsHookAPI;
 
 export const useEventsEffects: UseEventsEffects = (eventsAPI) => {
   React.useEffect(() => {
@@ -220,13 +220,15 @@ export const useEventsEffects: UseEventsEffects = (eventsAPI) => {
       JSON.stringify(eventsAPI.sortRule)
     );
   }, [eventsAPI.__events, eventsAPI.filterRules, eventsAPI.sortRule]);
+
+  return eventsAPI;
 };
 
 export const EventsProvider: React.FC<
   React.PropsWithChildren<Record<string, unknown>>
 > = (props) => {
-  const eventsAPI = useEvents();
-  useEventsEffects(eventsAPI);
+  const eventsAPI = useEventsEffects(useEvents());
+  
   const value = React.useMemo(() => eventsAPI, [
     eventsAPI.__events,
     eventsAPI.filterRules,
