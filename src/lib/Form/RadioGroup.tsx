@@ -12,7 +12,7 @@ export const RadioGroup: React.FC<
   React.PropsWithChildren<RadioGroupProps & FlexProps>
 > = ({ errors, isPristine, children, direction = "row", ...attrs }) => {
   return (
-    <Flex {...attrs}>
+    <Flex {...attrs} className='radio-group'>
       <Flex sx={{flexDirection: 'column', width:'100%'}}>
         <Flex m={1} sx={{ flexDirection: direction, width: '100%' }}>
           {React.Children.map(children, (child, i) => (

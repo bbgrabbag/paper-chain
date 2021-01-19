@@ -1,4 +1,4 @@
-import { CustomFieldValues } from "./config";
+import { CustomFieldValues, SortRuleName } from "./config";
 import { NullableFields } from "./lib/";
 
 export enum PaperChainEventType {
@@ -48,6 +48,13 @@ export type FilterEntity = NullableFields<
     byCategory: FilterByCategory;
     byOccurrence: FilterByOccurence;
     filterDate: Date;
+  },
+  CustomFieldValues
+>;
+
+export type SortEntity = NullableFields<
+  {
+    sortRule: SortRuleName;
   },
   CustomFieldValues
 >;

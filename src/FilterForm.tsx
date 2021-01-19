@@ -2,13 +2,10 @@ import { faUndo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Box, Button, Flex, Heading, IconButton } from "theme-ui";
-import { CustomValidatorKeys, useForm } from "./config";
+import { CategoryFilterRule, CustomValidatorKeys, FilterRuleName, OccurrenceFilterRule, useForm } from "./config";
 import { FilterByCategory, FilterByOccurence, FilterEntity } from "./entities";
 import {
-  CategoryFilterRule,
   EventsContext,
-  FilterRuleName,
-  OccurrenceFilterRule,
 } from "./EventsProvider";
 import { DatePicker, DefaultFormatterKeys, Form, Radio } from "./lib";
 import { RadioGroup } from "./lib/Form/RadioGroup";

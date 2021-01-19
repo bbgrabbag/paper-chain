@@ -35,11 +35,13 @@ export const EventDetailEdit: React.FC = () => {
 
   return (
     <Flex
+    id='event-detail-edit-view'
       sx={{
-        justifyContent: "center",
         margin: "auto",
         width: "85%",
         maxWidth: ["600px"],
+        height: '80vh',
+        alignItems:'center'
       }}
     >
       <EventDetailForm

@@ -1,13 +1,13 @@
 import React from "react";
-import {
-  SearchFilterRule,
-  EventsContext,
-  FilterRuleName,
-  UseEventsHookAPI,
-} from "./EventsProvider";
+import { EventsContext, UseEventsHookAPI } from "./EventsProvider";
 import { DefaultFormatterKeys, TextField, Form } from "./lib";
-import { useForm } from "./config";
-import { FilterByCategory, FilterByOccurence, SearchEntity } from "./entities";
+import {
+  FilterRuleName,
+  SearchFilterRule,
+  SortRuleName,
+  useForm,
+} from "./config";
+import { SearchEntity } from "./entities";
 import { Badge, Box, Close, Flex, Text } from "theme-ui";
 import { capitalize } from "./util";
 import Moment from "moment";
@@ -26,7 +26,6 @@ export const useFilterOnSearch = (
       eventsAPI.addFilters<SearchFilterRule>([
         {
           name: FilterRuleName.Search,
-          // cb: (e) => !!e.name?.toLowerCase().includes(keyword.toLowerCase()),
           keyword,
         },
       ]);
@@ -58,47 +57,58 @@ export const EventSearchForm: React.FC = () => {
       if (name === FilterRuleName.Search) handleClear();
     };
 
-    const badges = eventsAPI.filterRules
-      .filter((r) => {
-        if (r.name === FilterRuleName.Occurrence)
-          return r.occurrence !== FilterByOccurence.Whenever;
-        if (r.name === FilterRuleName.Category)
-          return r.category !== FilterByCategory.All;
-        return true;
-      })
-      .map((r, i) => {
-        let text = "";
-        if ("keyword" in r) text = `Keyword: ${r.keyword}`;
+    const badges = eventsAPI.filterRules.map((r, i) => {
+      let text = "";
+      if ("keyword" in r) text = `Keyword: ${r.keyword}`;
 
-        if ("occurrence" in r)
-          text = ` Occurs ${r.occurrence.toLowerCase()} ${Moment(r.date).format(
-            "M/D/YY"
-          )}`;
-        if ("category" in r) text = `Category: ${capitalize(r.category)}`;
-        return (
-          <Badge
-            variant="badgeButton"
-            sx={{ margin: "3px" }}
-            key={i}
-            onClick={handleBadgeClick(r.name)}
-          >
-            <FontAwesomeIcon icon={faTimesCircle} /> {text}
-          </Badge>
-        );
-      });
+      if ("occurrence" in r)
+        text = ` Occurs ${r.occurrence.toLowerCase()} ${Moment(r.date).format(
+          "M/D/YY"
+        )}`;
+      if ("category" in r) text = `Category: ${capitalize(r.category)}`;
+      return (
+        <Badge
+          variant="badgeButton"
+          sx={{ margin: "3px" }}
+          key={i}
+          onClick={handleBadgeClick(r.name)}
+        >
+          <FontAwesomeIcon icon={faTimesCircle} /> {text}
+        </Badge>
+      );
+    });
 
     const filterSearchInfoText = eventsAPI.filterRules.length ? (
-      <Text as='span'>
-        Showing <b>{eventsAPI.events.length}</b> result(s) for: {badges}
+      <Text as="span">
+        Showing <b>{eventsAPI.events.length}</b> result(s) for:
+        <Text>{badges}</Text>
       </Text>
     ) : eventsAPI.meta.count > 0 ? (
-      <Text as='span' sx={{ width: '100%'}}>Showing all result(s): <b>{eventsAPI.meta.count}</b> total</Text>
+      <Text as="span" sx={{ width: "100%" }}>
+        Showing all results: <b>{eventsAPI.meta.count}</b> total
+      </Text>
     ) : null;
 
+    const sortNameKeys = {
+      [SortRuleName.Default]: "Updated recently",
+      [SortRuleName.OldToNew]: "Updated later",
+      [SortRuleName.AtoZ]: "A to Z",
+      [SortRuleName.ZtoA]: "Z to A",
+      [SortRuleName.FutureToPast]: "Occurs later",
+      [SortRuleName.PastToFuture]: "Occurs earlier",
+    };
+    const sortInfoText = `${sortNameKeys[eventsAPI.sortRule.name]}`;
     return (
-      <Flex sx={{ flexDirection: "column", width:'100%' }}>
-        <Box sx={{textAlign:'right', fontSize:1}}>
-            {filterSearchInfoText}
+      <Flex sx={{ flexDirection: "column", width: "100%" }}>
+        <Box sx={{ textAlign: "right", fontSize: 1 }}>
+          {filterSearchInfoText}
+        </Box>
+        <Box sx={{ textAlign: "right", fontSize: 1 }}>
+          {!!eventsAPI.meta.count && (
+            <Text>
+              Sorted by: <b>{sortInfoText}</b>
+            </Text>
+          )}
         </Box>
       </Flex>
     );
@@ -116,7 +126,10 @@ export const EventSearchForm: React.FC = () => {
             label={""}
             fieldName={"keyword"}
             formControls={formControls}
-            inputAttrs={{ placeholder: "Search Paper Chains" }}
+            inputAttrs={{
+              placeholder: "Search Paper Chains",
+              disabled: !eventsAPI.meta.count,
+            }}
           />
         </Box>
         <Flex sx={{ justifyContent: "center", alignItems: "center" }}>

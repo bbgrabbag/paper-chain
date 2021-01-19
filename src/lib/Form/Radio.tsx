@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes, LabelHTMLAttributes } from "react";
 import { FormHookAPI, DefaultFieldValues } from "./useForm";
 import { Entity } from "./useForm";
-import {Radio as RadioUI, Label, Box} from 'theme-ui';
+import { Radio as RadioUI, Label, Box } from "theme-ui";
 
 export interface RadioProps<E, F extends keyof E> {
   label: string;
@@ -36,7 +36,11 @@ export const Radio = <
 
   return (
     <Box m={1}>
-      <Label {...labelAttrs} htmlFor={inputAttrs?.id}>
+      <Label
+        {...labelAttrs}
+        sx={{ display: "flex", alignItems: "center" }}
+        htmlFor={inputAttrs?.id}
+      >
         <RadioUI
           {...inputAttrs}
           name={radioGroup}
