@@ -126,7 +126,10 @@ export const EventSearchForm: React.FC = () => {
             label={""}
             fieldName={"keyword"}
             formControls={formControls}
-            inputAttrs={{ placeholder: "Search Paper Chains" }}
+            inputAttrs={{
+              placeholder: "Search Paper Chains",
+              disabled: !eventsAPI.meta.count,
+            }}
           />
         </Box>
         <Flex sx={{ justifyContent: "center", alignItems: "center" }}>

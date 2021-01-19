@@ -16,6 +16,7 @@ import {
   PaperChainSortStorageKey,
   SortRule,
   sortRuleCallbacks,
+  SortRuleName,
 } from "./config";
 
 export const EventsContext = React.createContext({} as UseEventsHookAPI);
@@ -146,7 +147,9 @@ export const useEvents: UseEventsHook = (): UseEventsHookAPI => {
   };
 };
 
-export type UseEventsEffects = (eventsHookAPI: UseEventsHookAPI) => UseEventsHookAPI;
+export type UseEventsEffects = (
+  eventsHookAPI: UseEventsHookAPI
+) => UseEventsHookAPI;
 
 export const useEventsEffects: UseEventsEffects = (eventsAPI) => {
   React.useEffect(() => {
@@ -219,7 +222,21 @@ export const useEventsEffects: UseEventsEffects = (eventsAPI) => {
       PaperChainSortStorageKey,
       JSON.stringify(eventsAPI.sortRule)
     );
-  }, [eventsAPI.__events, eventsAPI.filterRules, eventsAPI.sortRule]);
+
+    if (
+      !eventsAPI.meta.count &&
+      (eventsAPI.filterRules.length ||
+        eventsAPI.sortRule.name !== SortRuleName.Default)
+    ) {
+      eventsAPI.setFilterRules([]);
+      eventsAPI.setSortRule(defaultSortRule);
+    }
+  }, [
+    eventsAPI.__events,
+    eventsAPI.filterRules,
+    eventsAPI.sortRule,
+    eventsAPI.meta,
+  ]);
 
   return eventsAPI;
 };
@@ -228,7 +245,7 @@ export const EventsProvider: React.FC<
   React.PropsWithChildren<Record<string, unknown>>
 > = (props) => {
   const eventsAPI = useEventsEffects(useEvents());
-  
+
   const value = React.useMemo(() => eventsAPI, [
     eventsAPI.__events,
     eventsAPI.filterRules,

@@ -77,7 +77,7 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = (props) => {
           width: "85%",
           maxWidth: ["600px"],
           position: "relative",
-          maxHeight: "80%",
+          maxHeight: "95%",
           overflowY: "hidden",
           display: "flex",
           flexDirection: "column",

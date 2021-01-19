@@ -19,7 +19,7 @@ export const SortActionButton: React.FC = () => {
 
   return (
     <>
-      <IconButton onClick={modalAPI.toggleModal}>
+      <IconButton onClick={modalAPI.toggleModal} disabled={!eventsAPI.meta.count}>
         <FontAwesomeIcon icon={faSortAlphaUp} />
       </IconButton>
       <Modal rootSelector="#modal-root" modalAPI={modalAPI}>

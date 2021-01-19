@@ -44,7 +44,6 @@ export const SortForm: React.FC<SortFormProps> = (props) => {
     >
       <Heading as="h5">Sort By</Heading>
       <RadioGroup
-        m={2}
         direction="column"
         isPristine={formControls.fieldControls.sortRule.isPristine}
         errors={formControls.fieldControls.sortRule.errors}
@@ -92,7 +91,7 @@ export const SortForm: React.FC<SortFormProps> = (props) => {
           formControls={formControls}
         />
       </RadioGroup>
-      <Flex sx={{ flexDirection: "column" }}>
+      <Flex sx={{ flexDirection: "column",paddingTop: '1rem' }}>
         <Box m={1} sx={{ flex: 1 }}>
           <Button
             sx={{ width: "100%" }}
