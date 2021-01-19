@@ -106,10 +106,12 @@ export const EventGridDetail: React.FC<
           }}
         >
           <Box>
-            <Text>
-              Occurs on{" "}
-              <b>{Moment(props.event.timestamp).format("M/D/YYYY")}</b>
-            </Text>
+            {props.event.elapsed ? null : (
+              <Text sx={{fontSize: 1}}>
+                {props.event.type === PaperChainEventType.Since ? 'Started on ' : 'Occurs on '}{" "}
+                <b>{Moment(props.event.timestamp).format("M/D/YYYY")}</b>
+              </Text>
+            )}
           </Box>
         </Flex>
         <Flex

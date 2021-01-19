@@ -10,11 +10,9 @@ import {
   FilterEntity,
 } from "./entities";
 import {
-  CategoryFilterRule,
   EventsContext,
-  FilterRuleName,
-  OccurrenceFilterRule,
 } from "./EventsProvider";
+import { CategoryFilterRule, FilterRuleName, OccurrenceFilterRule } from "./config";
 
 export const FilterActionButton: React.FC = () => {
   const modalAPI = useModal();

@@ -7,69 +7,18 @@ import {
 } from "./entities";
 import { generateUuid, isElapsed } from "./util";
 import {
+  defaultSortRule,
+  FilterRule,
+  filterRuleCallbacks,
+  FilterRuleName,
   PaperChainEventsStorageKey,
   PaperChainFilterStorageKey,
+  PaperChainSortStorageKey,
+  SortRule,
+  sortRuleCallbacks,
 } from "./config";
-import Moment from "moment";
 
 export const EventsContext = React.createContext({} as UseEventsHookAPI);
-
-export enum FilterRuleName {
-  Search = "SEARCH",
-  Category = "CATEGORY",
-  Occurrence = "OCCURRENCE",
-}
-
-export enum SortRuleName {
-  Default = "DEFAULT",
-}
-
-export type FilterRuleCallbacks = {
-  [FilterRuleName.Category]: (
-    e: PaperChainEvent,
-    category: FilterByCategory,
-    i?: number
-  ) => boolean;
-  [FilterRuleName.Occurrence]: (
-    e: PaperChainEvent,
-    occurrence: FilterByOccurence,
-    filterDate: Date | null,
-    i?: number
-  ) => boolean;
-  [FilterRuleName.Search]: (
-    e: PaperChainEvent,
-    keyword: string,
-    i?: number
-  ) => boolean;
-};
-
-export interface SearchFilterRule {
-  name: FilterRuleName.Search;
-  keyword: string;
-  // cb: (e: PaperChainEvent, i?: number) => boolean;
-}
-export interface CategoryFilterRule {
-  name: FilterRuleName.Category;
-  category: FilterByCategory;
-  // cb: (e: PaperChainEvent, i?: number) => boolean;
-}
-
-export interface OccurrenceFilterRule {
-  name: FilterRuleName.Occurrence;
-  occurrence: FilterByOccurence;
-  date: Date | null;
-  // cb: (e: PaperChainEvent, i?: number) => boolean;
-}
-
-export type FilterRule =
-  | OccurrenceFilterRule
-  | SearchFilterRule
-  | CategoryFilterRule;
-
-export type SortRule = {
-  name: SortRuleName;
-  cb: (p1: PaperChainEvent, p2: PaperChainEvent, i?: number) => 1 | 0 | -1;
-};
 
 export interface UseEventsHookAPI {
   __events: PaperChainEvent[];
@@ -84,6 +33,7 @@ export interface UseEventsHookAPI {
   setFilterRules: React.Dispatch<React.SetStateAction<FilterRule[]>>;
   isFilterActive: (ruleName: FilterRuleName) => boolean;
   sort: (rule: SortRule) => void;
+  setSortRule: React.Dispatch<React.SetStateAction<SortRule>>;
   filterRules: FilterRule[];
   sortRule: SortRule;
   meta: {
@@ -92,47 +42,6 @@ export interface UseEventsHookAPI {
 }
 
 export type UseEventsHook = () => UseEventsHookAPI;
-
-export const defaultSortRule: SortRule = {
-  name: SortRuleName.Default,
-  cb: (t1, t2) => {
-    const t1lastCreatedOrModified = t1.dateModified || t1.dateCreated;
-    const t2lastCreatedOrModified = t2.dateModified || t2.dateCreated;
-
-    return Moment(t1lastCreatedOrModified).isAfter(t2lastCreatedOrModified)
-      ? -1
-      : Moment(t1lastCreatedOrModified).isBefore(t2lastCreatedOrModified)
-      ? 1
-      : 0;
-  },
-};
-
-const filterRuleCallbacks: FilterRuleCallbacks = {
-  [FilterRuleName.Search]: (e, keyword) =>
-    !!e.name?.toLowerCase().includes(keyword.toLowerCase()),
-  [FilterRuleName.Category]: (e, category) => {
-    switch (category) {
-      case FilterByCategory.All:
-        return true;
-      case FilterByCategory.Elapsed:
-        return !!e.elapsed;
-      case FilterByCategory.Since:
-        return e.type === PaperChainEventType.Since;
-      case FilterByCategory.Until:
-        return e.type === PaperChainEventType.Until;
-    }
-  },
-  [FilterRuleName.Occurrence]: (e, occ, date) => {
-    switch (occ) {
-      case FilterByOccurence.Whenever:
-        return true;
-      case FilterByOccurence.Before:
-        return Moment(e.timestamp).isBefore(date);
-      case FilterByOccurence.After:
-        return Moment(e.timestamp).isAfter(date);
-    }
-  },
-};
 
 export const useEvents: UseEventsHook = (): UseEventsHookAPI => {
   const [events, setEvents] = React.useState<PaperChainEvent[]>([]);
@@ -217,7 +126,7 @@ export const useEvents: UseEventsHook = (): UseEventsHookAPI => {
           else return filterRuleCallbacks[f.name](e, f.keyword);
         })
       )
-      .sort(sortRule.cb),
+      .sort(sortRuleCallbacks[sortRule.name]),
     setEvents,
     create,
     remove,
@@ -226,6 +135,7 @@ export const useEvents: UseEventsHook = (): UseEventsHookAPI => {
     setFilterRules,
     isFilterActive,
     sort,
+    setSortRule,
     getEventById,
     edit,
     filterRules,
@@ -236,7 +146,7 @@ export const useEvents: UseEventsHook = (): UseEventsHookAPI => {
   };
 };
 
-type UseEventsEffects = (eventsHookAPI: UseEventsHookAPI) => void;
+export type UseEventsEffects = (eventsHookAPI: UseEventsHookAPI) => void;
 
 export const useEventsEffects: UseEventsEffects = (eventsAPI) => {
   React.useEffect(() => {
@@ -281,7 +191,19 @@ export const useEventsEffects: UseEventsEffects = (eventsAPI) => {
           )
       );
     }
+
+    const storedSortRule = localStorage.getItem(PaperChainSortStorageKey);
+    if (storedSortRule == null)
+      localStorage.setItem(
+        PaperChainSortStorageKey,
+        JSON.stringify(eventsAPI.sortRule)
+      );
+    else {
+      const parsed = JSON.parse(storedSortRule) as SortRule;
+      eventsAPI.setSortRule(parsed);
+    }
   }, []);
+
   React.useEffect(() => {
     localStorage.setItem(
       PaperChainEventsStorageKey,
@@ -293,7 +215,11 @@ export const useEventsEffects: UseEventsEffects = (eventsAPI) => {
         eventsAPI.filterRules.filter((f) => f.name !== FilterRuleName.Search)
       )
     );
-  }, [eventsAPI.__events, eventsAPI.filterRules]);
+    localStorage.setItem(
+      PaperChainSortStorageKey,
+      JSON.stringify(eventsAPI.sortRule)
+    );
+  }, [eventsAPI.__events, eventsAPI.filterRules, eventsAPI.sortRule]);
 };
 
 export const EventsProvider: React.FC<

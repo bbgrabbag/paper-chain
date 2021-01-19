@@ -61,12 +61,37 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = (props) => {
       <Card
         className="modal-content"
         bg="background"
-        sx={{ width: "85%", maxWidth: ["600px"] }}
+        sx={{
+          width: "85%",
+          maxWidth: ["600px"],
+          position: "relative",
+          maxHeight: "80%",
+          overflowY: "hidden",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
-        <Flex sx={{ justifyContent: "flex-end" }}>
-          <Close sx={{'&:hover': {cursor:'pointer'}}}onClick={props.modalAPI.toggleModal} />
+        <Flex
+          className="modal-header"
+          sx={{
+            justifyContent: "flex-end",
+            position:'absolute',
+            width: '100%',
+            right: '1rem',
+            top: '1rem',
+          }}
+        >
+          <Close
+            sx={{ "&:hover": { cursor: "pointer" } }}
+            onClick={props.modalAPI.toggleModal}
+          />
         </Flex>
-        <Flex sx={{ padding: "1rem" }}>{props.children}</Flex>
+        <Flex
+          className="modal-content-body"
+          sx={{ overflowY: "scroll", padding: "3rem 1rem 1rem", maxHeight: "100%" }}
+        >
+          {props.children}
+        </Flex>
       </Card>
     </Flex>
   );

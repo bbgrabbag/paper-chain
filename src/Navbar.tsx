@@ -1,11 +1,10 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { Flex, Box, IconButton } from "theme-ui";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSortAlphaUp } from "@fortawesome/free-solid-svg-icons";
+import { Flex, Box } from "theme-ui";
 import { TimeFormatActionButton } from "./TimeFormatActionButton";
 import { NavBackActionButton } from "./NavBackActionButton";
 import { FilterActionButton } from "./FilterActionButton";
+import { SortActionButton } from "./SortActionButton";
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
@@ -20,20 +19,18 @@ export const Navbar: React.FC = () => {
         {!showOnRoutes([/dashboard/]) && <NavBackActionButton />}
       </Box>
       <Flex sx={{ flex: "auto", justifyContent: "flex-end" }}>
-        {showOnRoutes([/unreleased/]) && (
-          <Box sx={{margin: '3px'}}>
-            <IconButton>
-              <FontAwesomeIcon icon={faSortAlphaUp} />
-            </IconButton>
+        {showOnRoutes([/dashboard/]) && (
+          <Box sx={{ margin: "3px" }}>
+            <SortActionButton />
           </Box>
         )}
         {showOnRoutes([/dashboard/]) && (
-          <Box sx={{margin: '3px'}}>
+          <Box sx={{ margin: "3px" }}>
             <FilterActionButton />
           </Box>
         )}
         {showOnRoutes([/dashboard/, /view/]) && (
-          <Box sx={{margin: '3px'}}>
+          <Box sx={{ margin: "3px" }}>
             <TimeFormatActionButton />
           </Box>
         )}

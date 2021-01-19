@@ -85,17 +85,19 @@ export const EventDetailView: React.FC = () => {
         >
           {fragments.eventName}
         </Heading>
-        <Heading
-          as="h2"
+        <Text
           sx={{
             textAlign: "center",
             padding: "3rem",
             paddingTop: "6rem",
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
-          Occurs on {Moment(event.timestamp).format("M/D/YYYY")}
-        </Heading>
+          {event.type === PaperChainEventType.Since
+            ? "Occurred on "
+            : "Occurs on "}
+          {Moment(event.timestamp).format("M/D/YYYY")}
+        </Text>
       </>
     );
   };

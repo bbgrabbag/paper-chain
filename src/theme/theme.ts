@@ -77,8 +77,8 @@ const buildVariants = (baseTheme: Theme): Theme => {
     },
     badges: {
       badgeButton: {
-        paddingRight: '5px',
-        paddingLeft: '5px',
+        paddingRight: "5px",
+        paddingLeft: "5px",
         borderRadius: "10px",
         "&:hover": { cursor: "pointer", backgroundColor: "accent" },
       },
@@ -111,7 +111,7 @@ const buildStyles = (base: Theme["styles"]): Theme["styles"] => {
     ...base,
     root: {
       ...base?.root,
-      height: "100vh",
+      height: "100vh"
     },
     a: {
       ...base?.a,
