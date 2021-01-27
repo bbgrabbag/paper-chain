@@ -1,6 +1,18 @@
+## Version 1.7.1
+### 1-27-2021
+
+#### Features
+N/A
+
+##### Bugfixes
+- Fixed text field input focus issue
+
+---
+
 ## Version 1.7.0
 ### 1-19-2021
 
+#### Features
 - Sort feature added
 - Local storage of sort settings
 - Added more expressive UI for disabled buttons/forms when no events exist
@@ -16,6 +28,7 @@
 ## Version 1.6.0
 ### 1-17-2021
 
+#### Features
 - Filter feature added
 - Cookie crumbs on search/filter
 - Local storage of filter settings
