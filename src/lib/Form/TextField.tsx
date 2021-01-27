@@ -20,7 +20,7 @@ export const useInputRef = (
     if (ref.current) {
       handler(ref.current);
     }
-  }, [ref]);
+  }, [ref.current]);
 };
 
 export const TextField = <
@@ -38,7 +38,7 @@ export const TextField = <
 
   const inputRef = React.createRef<HTMLInputElement>();
 
-  if (props.onRefAttached) useInputRef(props.onRefAttached, inputRef)
+  useInputRef(props.onRefAttached || (() => null), inputRef)
 
   return (
     <Box m={1}>
